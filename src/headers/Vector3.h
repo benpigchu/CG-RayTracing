@@ -71,7 +71,6 @@ struct Vector3{
 	inline float length()noexcept{
 		return ::std::sqrt(this->sqrLength());
 	}
-
 	inline float sqrLength()noexcept{
 		return dot(*this,*this);
 	}
@@ -81,6 +80,10 @@ struct Vector3{
 	inline Vector3& normalize()noexcept{
 		*this/=this->length();
 		return *this;
+	}
+	friend inline ::std::ostream& operator<<(::std::ostream& os,Vector3& v)noexcept{
+		os<<"("<<v.x<<","<<v.y<<","<<v.z<<")";
+		return os;
 	}
 };
 
