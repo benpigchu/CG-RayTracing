@@ -1,5 +1,7 @@
 #ifndef RAY_H
 #define RAY_H
+#include <ostream>
+#include "Vector3.h"
 class Ray{
 	Vector3 direction;
 	public:

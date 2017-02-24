@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <cmath>
 #include <stdexcept>
+#include <ostream>
 
 struct Vector3{
 	union{float x;float r;};

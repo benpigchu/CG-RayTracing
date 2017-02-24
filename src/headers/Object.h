@@ -2,8 +2,8 @@
 #define OBJECT_H
 #include "Geometry.h"
 #include "Material.h"
-class Object{
-	Geometry geo;
-	Material mat;
+struct Object{
+	::std::shared_ptr<Geometry> geo;
+	::std::shared_ptr<Material> mat;
 };
 #endif //OBJECT_H
