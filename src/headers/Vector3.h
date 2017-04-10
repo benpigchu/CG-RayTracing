@@ -53,7 +53,6 @@ struct Vector3{
 	inline bool operator==(Vector3 v)noexcept{
 		return (this->x==v.x)&&(this->y==v.y)&&(this->z==v.z);
 	}
-
 	inline bool operator!=(Vector3 v)noexcept{
 		return !(*this==v);
 	}
