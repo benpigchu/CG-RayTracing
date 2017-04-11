@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <ostream>
 #include <utility>
+#include "Vector3.h"
 
 struct Matrix4{
 	private:
@@ -236,6 +237,17 @@ struct Matrix4{
 		x[3][2]=x32/det;
 		x[3][3]=x33/det;
 		return *this;
+	}
+	friend inline Vector3 apply(Matrix4 m,Vector3 v)noexcept{
+		float w=m.x[3][0]*v.x+m.x[3][1]*v.y+m.x[3][2]*v.z+m.x[3][3];
+		return Vector3((m.x[0][0]*v.x+m.x[0][1]*v.y+m.x[0][2]*v.z+m.x[0][3])/w,(m.x[1][0]*v.x+m.x[1][1]*v.y+m.x[1][2]*v.z+m.x[1][3])/w,(m.x[2][0]*v.x+m.x[2][1]*v.y+m.x[2][2]*v.z+m.x[2][3])/w);
+	}
+	friend inline Vector3& applyTo(Matrix4 m,Vector3& v)noexcept{
+		float w=m.x[3][0]*v.x+m.x[3][1]*v.y+m.x[3][2]*v.z+m.x[3][3];
+		v.x=(m.x[0][0]*v.x+m.x[0][1]*v.y+m.x[0][2]*v.z+m.x[0][3])/w;
+		v.y=(m.x[1][0]*v.x+m.x[1][1]*v.y+m.x[1][2]*v.z+m.x[1][3])/w;
+		v.z=(m.x[2][0]*v.x+m.x[2][1]*v.y+m.x[2][2]*v.z+m.x[2][3])/w;
+		return v;
 	}
 	friend inline ::std::ostream& operator<<(::std::ostream& os,const Matrix4& m)noexcept{
 		os<<"[["<<m.x[0][0]<<" "<<m.x[0][1]<<" "<<m.x[0][2]<<" "<<m.x[0][3]<<"] "<<"\n";
