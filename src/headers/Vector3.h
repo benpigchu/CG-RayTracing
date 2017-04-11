@@ -50,10 +50,10 @@ struct Vector3{
 		this->z/=f;
 		return *this;
 	}
-	inline bool operator==(Vector3 v)noexcept{
+	inline bool operator==(Vector3 v)const noexcept{
 		return (this->x==v.x)&&(this->y==v.y)&&(this->z==v.z);
 	}
-	inline bool operator!=(Vector3 v)noexcept{
+	inline bool operator!=(Vector3 v)const noexcept{
 		return !(*this==v);
 	}
 	inline float& operator[](ptrdiff_t i){
