@@ -6,6 +6,7 @@
 #include <ostream>
 #include <utility>
 #include "Vector3.h"
+#include "Quaternion.h"
 
 struct Matrix4{
 	private:
@@ -255,6 +256,12 @@ struct Matrix4{
 		os<<" ["<<m.x[2][0]<<" "<<m.x[2][1]<<" "<<m.x[2][2]<<" "<<m.x[2][3]<<"] "<<"\n";
 		os<<" ["<<m.x[3][0]<<" "<<m.x[3][1]<<" "<<m.x[3][2]<<" "<<m.x[3][3]<<"]]"<<"\n";
 		return os;
+	}
+	static inline Matrix4 fromTranslation(Vector3 trans){
+		return Matrix4(1,0,0,trans.x,0,1,0,trans.y,0,0,1,trans.z,0,0,0,1);
+	}
+	static inline Matrix4 fromQuaternion(Quaternion q){
+		return Matrix4(1-2*(q.y*q.y+q.z*q.z),2*(q.x*q.y-q.z*q.w),2*(q.x*q.z+q.y*q.w),0,2*(q.x*q.y+q.z*q.w),1-2*(q.x*q.x+q.z*q.z),2*(q.y*q.z-q.x*q.w),0,2*(q.x*q.z-q.y*q.w),2*(q.y*q.z+q.x*q.w),1-2*(q.x*q.x+q.y*q.y),0,0,0,0,1);
 	}
 };
 

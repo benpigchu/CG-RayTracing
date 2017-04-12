@@ -9,8 +9,44 @@ struct Quaternion{
 	float x,y,z,w;
 	Quaternion(float x,float y,float z,float w)noexcept:x(x),y(y),z(z),w(w){}
 	Quaternion()noexcept:Quaternion(0,0,0,1){}
+	inline Quaternion operator+(Quaternion q)const noexcept{
+		return Quaternion(this->x+q.x,this->y+q.y,this->z+q.z,this->w+q.w);
+	}
+	inline Quaternion operator-(Quaternion q)const noexcept{
+		return Quaternion(this->x-q.x,this->y-q.y,this->z-q.z,this->w-q.w);
+	}
+	inline Quaternion operator*(float f)const noexcept{
+		return Quaternion(this->x*f,this->y*f,this->z*f,this->w*f);
+	}
 	inline Quaternion operator*(Quaternion q)const noexcept{
 		return Quaternion(this->x*q.w+this->w*q.x+this->y*q.z-this->z*q.y,this->y*q.w+this->w*q.y+this->z*q.x-this->x*q.z,this->z*q.w+this->w*q.z+this->x*q.y-this->y*q.x,this->w*q.w-this->x*q.x-this->y*q.y-this->z*q.z);
+	}
+	inline Quaternion operator/(float f)const noexcept{
+		return Quaternion(this->x/f,this->y/f,this->z/f,this->w/f);
+	}
+	friend inline Quaternion operator*(float f,Quaternion q)noexcept{
+		return q*f;
+	}
+	inline Quaternion& operator+=(Quaternion q)noexcept{
+		this->x+=q.x;
+		this->y+=q.y;
+		this->z+=q.z;
+		this->w+=q.w;
+		return *this;
+	}
+	inline Quaternion& operator-=(Quaternion q)noexcept{
+		this->x-=q.x;
+		this->y-=q.y;
+		this->z-=q.z;
+		this->w-=q.w;
+		return *this;
+	}
+	inline Quaternion& operator*=(float f)noexcept{
+		this->x*=f;
+		this->y*=f;
+		this->z*=f;
+		this->w*=f;
+		return *this;
 	}
 	inline Quaternion& operator*=(Quaternion q)noexcept{
 		float xx=this->x*q.w+this->w*q.x+this->y*q.z-this->z*q.y;
@@ -21,6 +57,13 @@ struct Quaternion{
 		this->y=yy;
 		this->z=zz;
 		this->w=ww;
+		return *this;
+	}
+	inline Quaternion& operator/=(float f)noexcept{
+		this->x/=f;
+		this->y/=f;
+		this->z/=f;
+		this->w/=f;
 		return *this;
 	}
 	inline bool operator==(Quaternion q)const noexcept{
