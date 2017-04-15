@@ -150,13 +150,13 @@ struct Matrix4{
 	inline bool operator!=(Matrix4 m)const noexcept{
 		return !(*this==m);
 	}
-	inline float& value(ptrdiff_t i,ptrdiff_t j){
+	inline float& at(ptrdiff_t i,ptrdiff_t j){
 		if(i<0||i>3||j<0||j>3){
 			throw ::std::out_of_range("Matrix4 only have 4x4 fields.");
 		}
 		return x[i][j];
 	}
-	inline const float& value(ptrdiff_t i,ptrdiff_t j)const{
+	inline const float& at(ptrdiff_t i,ptrdiff_t j)const{
 		if(i<0||i>3||j<0||j>3){
 			throw ::std::out_of_range("Matrix4 only have 4x4 fields.");
 		}
