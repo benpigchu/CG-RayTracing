@@ -20,5 +20,8 @@ class Ray{
 	inline void step(float distance)noexcept{
 		this->start+=distance*this->direction;
 	}
+	static inline Ray fromStartAndEnd(Vector3 start,Vector3 end)noexcept{
+		return Ray(end-start,start);
+	}
 };
 #endif //RAY_H

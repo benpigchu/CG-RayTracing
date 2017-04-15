@@ -6,7 +6,7 @@
 
 IntersectInfo Sphere::testIntersect(Ray r)const noexcept{
 	IntersectInfo ii;
-	Vector3 rayStartToCenter=this->center-r.start;
+	Vector3 rayStartToCenter=Vector3(0,0,0)-r.start;
 	float sqrDistanceToRay=cross(r.getDirection(),rayStartToCenter).sqrLength();
 	float sqrRadius=this->radius*this->radius;
 	if(sqrDistanceToRay>sqrRadius){
@@ -25,7 +25,7 @@ IntersectInfo Sphere::testIntersect(Ray r)const noexcept{
 				ii.distance=centerStep-stepOffset;
 			}
 			ii.pos=ii.distance*r.getDirection()+r.start;
-			ii.normal=(ii.pos-this->center).normalized();
+			ii.normal=(ii.pos).normalized();
 		}
 	}
 	return ii;

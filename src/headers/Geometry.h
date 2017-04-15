@@ -20,6 +20,7 @@ struct IntersectInfo{
 };
 
 class Geometry{
+	public:
 	virtual IntersectInfo testIntersect(Ray r)const noexcept = 0;
 };
 #endif //GEOMETRY_H

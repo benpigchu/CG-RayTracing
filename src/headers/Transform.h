@@ -29,15 +29,15 @@ class Transform{
 	inline Quaternion getRotation()const noexcept{
 		return this->rotation;
 	}
-	inline void setRotation()noexcept{
-		this->rotation=rotation;
+	inline void setRotation(Quaternion rotation)noexcept{
+		this->rotation=rotation.normalized();
 		this->update();
 	}
 	inline Matrix4 getMatrix()const noexcept{
-		return this->matrix
+		return this->matrix;
 	}
 	inline Matrix4 getMatrixInversed()const noexcept{
-		return this->matrixInversed
+		return this->matrixInversed;
 	}
 };
 

@@ -7,5 +7,6 @@ include_directories(src/headers)
 add_executable(rt
 	src/Scene.cpp
 	src/Sphere.cpp
+	src/Object.cpp
 	src/main.cpp
 	)
