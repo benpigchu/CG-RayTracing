@@ -16,18 +16,23 @@
 int main(int argc,char** argv){
 	::std::cout<<"still working\n";
 
-	// ::std::cout<<Camera(1000,Vector3(10,10,10),Quaternion::fromAxisRotation(Vector3(1,1,1),2*PI/3)).makeRay(0,0);
+	Scene scene;
 
-	// Bitmap bm(3,3);
-	// ::std::ofstream out("test.ppm",::std::ios::binary);
-	// bm.exportAsPPM(out);
+	// Camera cam(1000,Vector3(10,10,10),Quaternion::fromAxisRotation(Vector3(1,1,1),2*PI/3));
 
-	// ::std::cout<<Sphere(1).testIntersect(Ray(Vector3(0.5,0.5,0),Vector3(0.5,0.7,0)));
+	::std::shared_ptr<Object> o1(new Object),o2(new Object);
 
-	// Object o;
-	// o.transform.setRotation(Quaternion::fromAxisRotation(Vector3(1,1,0),0));
-	// o.transform.setPosition(Vector3(0,0,1));
-	// o.geometry=std::shared_ptr<Geometry>(new Sphere(1));
-	// ::std::cout<<o.testIntersect(Ray(Vector3(0.5,0.5,0),Vector3(0.5,0.7,1)));
+	o1->transform.setRotation(Quaternion::fromAxisRotation(Vector3(1,1,0),0));
+	o1->transform.setPosition(Vector3(0,0,3));
+	o1->geometry=std::shared_ptr<Geometry>(new Sphere(1));
+
+	o2->transform.setRotation(Quaternion::fromAxisRotation(Vector3(1,1,0),0));
+	o2->transform.setPosition(Vector3(0,0,5));
+	o2->geometry=std::shared_ptr<Geometry>(new Sphere(1));
+
+	scene.addObject(o1);
+	scene.addObject(o2);
+
+	::std::cout<<scene.testIntersect(Ray(Vector3(0,0,-1),Vector3(0,0,7))).second;
 	return 0;
 }

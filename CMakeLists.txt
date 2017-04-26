@@ -6,8 +6,9 @@ include_directories(src/headers)
 
 add_executable(rt
 	src/Bitmap.cpp
+	src/Camera.cpp
+	src/Object.cpp
 	src/Scene.cpp
 	src/Sphere.cpp
-	src/Object.cpp
 	src/main.cpp
 	)

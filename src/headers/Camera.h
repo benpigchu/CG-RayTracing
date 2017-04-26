@@ -5,6 +5,8 @@
 #include "Vector3.h"
 #include "Quaternion.h"
 #include "Ray.h"
+#include "Bitmap.h"
+#include "Scene.h"
 
 struct Camera{
 	Transform transform;
@@ -18,6 +20,7 @@ struct Camera{
 		os<<"(Camera zoom:"<<c.zoom<<" transform:"<<c.transform<<")";
 		return os;
 	}
+	void render(Bitmap& bitmap,const Scene& scene)noexcept;
 };
 
 #endif //CAMERA_H
