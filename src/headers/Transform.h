@@ -39,6 +39,10 @@ class Transform{
 	inline Matrix4 getMatrixInversed()const noexcept{
 		return this->matrixInversed;
 	}
+	friend inline ::std::ostream& operator<<(::std::ostream& os,const Transform& t)noexcept{
+		os<<"(Transform pos:"<<t.position<<" rot:"<<t.rotation<<")";
+		return os;
+	}
 };
 
 #endif //TRANSFORM_H
