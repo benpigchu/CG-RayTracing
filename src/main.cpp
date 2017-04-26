@@ -12,27 +12,36 @@
 #include "Sphere.h"
 #include "Object.h"
 #include "Camera.h"
+#include "RunTask.hpp"
 
 int main(int argc,char** argv){
 	::std::cout<<"still working\n";
 
-	Scene scene;
+	// Scene scene;
 
 	// Camera cam(1000,Vector3(10,10,10),Quaternion::fromAxisRotation(Vector3(1,1,1),2*PI/3));
 
-	::std::shared_ptr<Object> o1(new Object),o2(new Object);
+	// ::std::shared_ptr<Object> o1(new Object),o2(new Object);
 
-	o1->transform.setRotation(Quaternion::fromAxisRotation(Vector3(1,1,0),0));
-	o1->transform.setPosition(Vector3(0,0,3));
-	o1->geometry=std::shared_ptr<Geometry>(new Sphere(1));
+	// o1->transform.setRotation(Quaternion::fromAxisRotation(Vector3(1,1,0),0));
+	// o1->transform.setPosition(Vector3(0,0,3));
+	// o1->geometry=std::shared_ptr<Geometry>(new Sphere(1));
 
-	o2->transform.setRotation(Quaternion::fromAxisRotation(Vector3(1,1,0),0));
-	o2->transform.setPosition(Vector3(0,0,5));
-	o2->geometry=std::shared_ptr<Geometry>(new Sphere(1));
+	// o2->transform.setRotation(Quaternion::fromAxisRotation(Vector3(1,1,0),0));
+	// o2->transform.setPosition(Vector3(0,0,5));
+	// o2->geometry=std::shared_ptr<Geometry>(new Sphere(1));
 
-	scene.addObject(o1);
-	scene.addObject(o2);
+	// scene.addObject(o1);
+	// scene.addObject(o2);
 
-	::std::cout<<scene.testIntersect(Ray(Vector3(0,0,-1),Vector3(0,0,7))).second;
+	// ::std::cout<<scene.testIntersect(Ray(Vector3(0,0,-1),Vector3(0,0,7))).second;
+
+	// runTask<int>(0,[](int i,auto addTask){
+	// 	::std::cout<<i<<" ";
+	// 	if(i<10){
+	// 		addTask(2*i+1);
+	// 		addTask(2*i+2);
+	// 	}
+	// });
 	return 0;
 }
