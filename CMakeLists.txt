@@ -8,6 +8,7 @@ add_executable(rt
 	src/Bitmap.cpp
 	src/Camera.cpp
 	src/Object.cpp
+	src/PointLight.cpp
 	src/Scene.cpp
 	src/Sphere.cpp
 	src/main.cpp
