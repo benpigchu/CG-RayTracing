@@ -7,6 +7,7 @@ include_directories(src/headers)
 add_executable(rt
 	src/Bitmap.cpp
 	src/Camera.cpp
+	src/DiffuseMaterial.cpp
 	src/Object.cpp
 	src/PointLight.cpp
 	src/Scene.cpp
