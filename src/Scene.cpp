@@ -6,9 +6,9 @@
 #include "Object.h"
 #include "Ray.h"
 
-::std::pair<::std::weak_ptr<Material>,IntersectInfo> Scene::testIntersect(Ray r)const noexcept{
+::std::pair<::std::shared_ptr<Material>,IntersectInfo> Scene::testIntersect(Ray r)const noexcept{
 	IntersectInfo ii;
-	::std::weak_ptr<Material> mat;
+	::std::shared_ptr<Material> mat;
 	ii.isIntersect=false;
 	for(::std::shared_ptr<Object> object:this->objects){
 		IntersectInfo newii=object->testIntersect(r);
@@ -27,9 +27,9 @@
 	return ::std::make_pair(mat,ii);
 }
 
-::std::pair<::std::weak_ptr<Light>,LightReachInfo> Scene::testLightReach(Ray r)const noexcept{
+::std::pair<::std::shared_ptr<Light>,LightReachInfo> Scene::testLightReach(Ray r)const noexcept{
 	LightReachInfo lri;
-	::std::weak_ptr<Light> lit;
+	::std::shared_ptr<Light> lit;
 	lri.isReach=false;
 	for(::std::shared_ptr<Light> light:this->lights){
 		LightReachInfo newlri=light->testReach(r);

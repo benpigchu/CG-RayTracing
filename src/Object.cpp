@@ -19,6 +19,6 @@ IntersectInfo Object::testIntersect(Ray r)const noexcept{
 	}
 	ii.distance=rawii.distance;
 	ii.pos=apply(this->transform.getMatrix(),rawii.pos);
-	ii.normal=apply(this->transform.getRotation(),rawii.pos);
+	ii.normal=apply(this->transform.getRotation(),rawii.normal);
 	return ii;
 }

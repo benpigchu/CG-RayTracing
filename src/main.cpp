@@ -36,18 +36,22 @@ int main(int argc,char** argv){
 	o1->material=::std::shared_ptr<Material>(new DiffuseMaterial(Vector3(0.2,0.2,0.2)));
 
 	o2->transform.setRotation(Quaternion::fromAxisRotation(Vector3(1,1,0),0));
-	o2->transform.setPosition(Vector3(0,0,50));
-	o2->geometry=::std::shared_ptr<Geometry>(new Sphere(5));
+	o2->transform.setPosition(Vector3(0,0,150));
+	o2->geometry=::std::shared_ptr<Geometry>(new Sphere(100));
 	o2->material=::std::shared_ptr<Material>(new DiffuseMaterial(Vector3(0.2,0.2,0.2)));
 
 	scene.addObject(o1);
 	scene.addObject(o2);
 
+	::std::shared_ptr<Light> l(new PointLight(Vector3(10,10,10),Vector3(1,0.5,0)));
+
+	scene.addLight(l);
+
 	cam.render(bitmap,scene);
 
-	// ::std::ofstream file("test.ppm",::std::ios::out|std::ios::binary);
+	::std::ofstream file("test.ppm",::std::ios::out|std::ios::binary);
 
-	// bitmap.exportAsPPM(file);
+	bitmap.exportAsPPM(file);
 
 	return 0;
 }
