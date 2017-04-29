@@ -26,3 +26,24 @@
 	}
 	return ::std::make_pair(mat,ii);
 }
+
+::std::pair<::std::weak_ptr<Light>,LightReachInfo> Scene::testLightReach(Ray r)const noexcept{
+	LightReachInfo lri;
+	::std::weak_ptr<Light> lit;
+	lri.isReach=false;
+	for(::std::shared_ptr<Light> light:this->lights){
+		LightReachInfo newlri=light->testReach(r);
+		if(newlri.isReach){
+			if(!lri.isReach){
+				lri=newlri;
+				lit=light;
+			}else{
+				if(newlri.distance<lri.distance){
+					lri=newlri;
+					lit=light;
+				}
+			}
+		}
+	}
+	return ::std::make_pair(lit,lri);
+}

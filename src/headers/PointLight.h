@@ -9,6 +9,6 @@ class PointLight:public Light{
 	Vector3 position;
 	PointLight(Vector3 intensity,Vector3 position=Vector3(0,0,0))noexcept:intensity(intensity),position(position){}
 	LightReachInfo testReach(Ray r)const noexcept override;
+	Vector3 getIntensity(Vector3 position,::std::function<Vector3(Vector3,Vector3)> filter)const noexcept override;
 };
-
 #endif //POINTLIGHT_H
