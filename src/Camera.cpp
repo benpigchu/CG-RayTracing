@@ -17,8 +17,8 @@ void Camera::render(Bitmap& bitmap,const Scene& scene)noexcept{
 	size_t width=bitmap.getWidth();
 	for(int i=0;i<height;i++){
 		for(int j=0;j<width;j++){
-			float x=i+0.5-width/2.0;
-			float y=j+0.5-height/2.0;
+			double x=i+0.5-width/2.0;
+			double y=j+0.5-height/2.0;
 			Vector3& pixel=bitmap.at(i,j);
 			pixel=Vector3(0,0,0);
 			struct RayTracingTask{
@@ -62,9 +62,9 @@ void Camera::render(Bitmap& bitmap,const Scene& scene)noexcept{
 							}
 							return dot(ii.normal,toLight)*intensity;
 						});
-						pixel.r+=intensity.r*task.weight.r;
-						pixel.g+=intensity.g*task.weight.g;
-						pixel.b+=intensity.b*task.weight.b;
+						pixel.r+=intensity.r*task.weight.r*weight.r;
+						pixel.g+=intensity.g*task.weight.g*weight.g;
+						pixel.b+=intensity.b*task.weight.b*weight.b;
 					}
 				}
 			});

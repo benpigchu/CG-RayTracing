@@ -17,7 +17,7 @@ class Ray{
 		os<<"(Ray "<<r.start<<" -> "<<r.direction<<" )";
 		return os;
 	}
-	inline void step(float distance)noexcept{
+	inline void step(double distance)noexcept{
 		this->start+=distance*this->direction;
 	}
 	static inline Ray fromStartAndEnd(Vector3 start,Vector3 end)noexcept{

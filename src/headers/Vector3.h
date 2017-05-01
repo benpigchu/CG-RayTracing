@@ -6,10 +6,10 @@
 #include <ostream>
 
 struct Vector3{
-	union{float x;float r;};
-	union{float y;float g;};
-	union{float z;float b;};
-	Vector3(float x,float y,float z)noexcept:x(x),y(y),z(z){}
+	union{double x;double r;};
+	union{double y;double g;};
+	union{double z;double b;};
+	Vector3(double x,double y,double z)noexcept:x(x),y(y),z(z){}
 	Vector3()noexcept:Vector3(0,0,0){}
 	inline Vector3 operator+(Vector3 v)const noexcept{
 		return Vector3(this->x+v.x,this->y+v.y,this->z+v.z);
@@ -17,13 +17,13 @@ struct Vector3{
 	inline Vector3 operator-(Vector3 v)const noexcept{
 		return Vector3(this->x-v.x,this->y-v.y,this->z-v.z);
 	}
-	inline Vector3 operator*(float f)const noexcept{
+	inline Vector3 operator*(double f)const noexcept{
 		return Vector3(this->x*f,this->y*f,this->z*f);
 	}
-	inline Vector3 operator/(float f)const noexcept{
+	inline Vector3 operator/(double f)const noexcept{
 		return Vector3(this->x/f,this->y/f,this->z/f);
 	}
-	friend inline Vector3 operator*(float f,Vector3 v)noexcept{
+	friend inline Vector3 operator*(double f,Vector3 v)noexcept{
 		return v*f;
 	}
 	inline Vector3& operator+=(Vector3 v)noexcept{
@@ -38,13 +38,13 @@ struct Vector3{
 		this->z-=v.z;
 		return *this;
 	}
-	inline Vector3& operator*=(float f)noexcept{
+	inline Vector3& operator*=(double f)noexcept{
 		this->x*=f;
 		this->y*=f;
 		this->z*=f;
 		return *this;
 	}
-	inline Vector3& operator/=(float f)noexcept{
+	inline Vector3& operator/=(double f)noexcept{
 		this->x/=f;
 		this->y/=f;
 		this->z/=f;
@@ -56,28 +56,28 @@ struct Vector3{
 	inline bool operator!=(Vector3 v)const noexcept{
 		return !(*this==v);
 	}
-	inline float& operator[](ptrdiff_t i){
+	inline double& operator[](ptrdiff_t i){
 		if(i<0||i>2){
 			throw ::std::out_of_range("Vector3 only have 3 fields.");
 		}
 		return i==0?(this->x):i==1?(this->y):(this->z);
 	}
-	inline const float& operator[](ptrdiff_t i)const{
+	inline const double& operator[](ptrdiff_t i)const{
 		if(i<0||i>2){
 			throw ::std::out_of_range("Vector3 only have 3 fields.");
 		}
 		return i==0?(this->x):i==1?(this->y):(this->z);
 	}
-	friend inline float dot(Vector3 v,Vector3 u)noexcept{
+	friend inline double dot(Vector3 v,Vector3 u)noexcept{
 		return u.x*v.x+u.y*v.y+u.z*v.z;
 	}
 	friend inline Vector3 cross(Vector3 v,Vector3 u)noexcept{
 		return Vector3(v.y*u.z-v.z*u.y,v.z*u.x-v.x*u.z,v.x*u.y-v.y*u.x);
 	}
-	inline float length()const noexcept{
+	inline double length()const noexcept{
 		return ::std::sqrt(this->sqrLength());
 	}
-	inline float sqrLength()const noexcept{
+	inline double sqrLength()const noexcept{
 		return dot(*this,*this);
 	}
 	inline Vector3 normalized()const noexcept{

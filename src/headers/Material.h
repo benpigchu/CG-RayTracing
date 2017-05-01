@@ -9,7 +9,7 @@ struct TransformedRayData{
 	bool isDiffuse;
 	Ray newRay;
 	Vector3 weight;
-	float probablity;
+	double probablity;
 	friend inline ::std::ostream& operator<<(::std::ostream& os,const TransformedRayData& trd)noexcept{
 		os<<"(TransformedRayData prob:"<<trd.probablity<<" weight:"<<trd.weight;
 		if(trd.isDiffuse){

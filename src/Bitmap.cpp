@@ -3,9 +3,9 @@
 #include "Vector3.h"
 #include "Bitmap.h"
 
-void Bitmap::exportAsPPM(::std::ostream& os,float gamma)const noexcept{
-	auto printFloat=[&os,gamma](float f){
-		float gammaedF=pow(f,1.0f/gamma);
+void Bitmap::exportAsPPM(::std::ostream& os,double gamma)const noexcept{
+	auto printFloat=[&os,gamma](double f){
+		double gammaedF=pow(f,1.0f/gamma);
 		if(gammaedF>1.0f){
 			gammaedF=1.0f;
 		}

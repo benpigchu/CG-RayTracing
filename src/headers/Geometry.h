@@ -8,7 +8,7 @@ struct IntersectInfo{
 	bool isIntersect;
 	Vector3 pos;
 	Vector3 normal;
-	float distance;
+	double distance;
 	friend inline ::std::ostream& operator<<(::std::ostream& os,const IntersectInfo& ii)noexcept{
 		if(ii.isIntersect){
 			os<<"(Intersected at "<<ii.pos<<" d:"<<ii.distance<<" nm:"<<ii.normal<<")";

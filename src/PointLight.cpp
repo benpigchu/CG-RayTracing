@@ -8,7 +8,7 @@
 LightReachInfo PointLight::testReach(Ray r)const noexcept{
 	LightReachInfo lri;
 	Vector3 rayStartToCenter=this->position-r.start;
-	float distanceToRay=cross(r.getDirection(),rayStartToCenter).length();
+	double distanceToRay=cross(r.getDirection(),rayStartToCenter).length();
 	if(distanceToRay<eps&&dot(r.getDirection(),rayStartToCenter)>0){
 		lri.isReach=true;
 		lri.distance=rayStartToCenter.length();

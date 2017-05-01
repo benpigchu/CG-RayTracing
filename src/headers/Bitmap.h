@@ -33,7 +33,7 @@ class Bitmap{
 		os<<"(Bitmap "<<m.width<<"x"<<m.height<<")";
 		return os;
 	}
-	void exportAsPPM(::std::ostream& os,float gamma=1.0f)const noexcept;
+	void exportAsPPM(::std::ostream& os,double gamma=1.0f)const noexcept;
 };
 
 

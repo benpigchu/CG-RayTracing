@@ -7,7 +7,7 @@
 
 struct LightReachInfo{
 	bool isReach;
-	float distance;
+	double distance;
 	Vector3 intensity;
 	friend inline ::std::ostream& operator<<(::std::ostream& os,const LightReachInfo& lri)noexcept{
 		if(lri.isReach){
