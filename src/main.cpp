@@ -26,35 +26,35 @@ int main(int argc,char** argv){
 
 	Scene scene;
 
-	Camera cam(100);
+	Camera cam(50);
 
 	::std::shared_ptr<Object> o1(new Object);
 
 	::std::shared_ptr<Geometry> wall(new Sphere(10000));
 	::std::shared_ptr<Material> whiteDiffuse(new DiffuseMaterial(Vector3(1,1,1)));
 
-	o1->transform.setPosition(Vector3(10,10,30));
-	o1->geometry=::std::shared_ptr<Geometry>(new Sphere(3));
+	o1->transform.setPosition(Vector3(10,10,120));
+	o1->geometry=::std::shared_ptr<Geometry>(new Sphere(20));
 	o1->material=whiteDiffuse;
 
 
-	auto makeWall=[&scene,wall,whiteDiffuse](Vector3 pos){
+	auto makeWall=[&scene,wall](Vector3 pos,Vector3 color=Vector3(1,1,1)){
 		::std::shared_ptr<Object> w(new Object);
 		w->geometry=wall;
-		w->material=whiteDiffuse;
+		w->material=::std::shared_ptr<Material>(new DiffuseMaterial(color));
 		w->transform.setPosition(pos);
 		scene.addObject(w);
 	};
 
 	makeWall(Vector3(0,0,10200));
-	// makeWall(Vector3(10100,0,100));
-	// makeWall(Vector3(-10100,0,100));
-	// makeWall(Vector3(0,10100,100));
-	// makeWall(Vector3(0,-10100,100));
+	makeWall(Vector3(10100,0,100),Vector3(0,1,0));
+	makeWall(Vector3(-10100,0,100),Vector3(1,0,0));
+	makeWall(Vector3(0,10100,100),Vector3(1,0.5,0));
+	makeWall(Vector3(0,-10100,100),Vector3(0.5,1,0));
 
 	scene.addObject(o1);
 
-	::std::shared_ptr<Light> l(new PointLight(Vector3(10,10,10),Vector3(1,0.5,0)));
+	::std::shared_ptr<Light> l(new PointLight(Vector3(-30,-30,100),Vector3(1,1,1)));
 
 	scene.addLight(l);
 

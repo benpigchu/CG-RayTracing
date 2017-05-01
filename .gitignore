@@ -29,3 +29,5 @@ CTestTestfile.cmake
 *.app
 *.ppm
 *.png
+*.ps1
+*.cmd
