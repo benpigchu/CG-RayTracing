@@ -22,46 +22,51 @@
 	};
 	RayTracingTask init{r,Vector3(1,1,1)};
 	runTask<RayTracingTask>(init,[&pixel,&scene](RayTracingTask task,auto addTask){
+		if(task.weight.length()<eps){
+			return;
+		}
 		auto iiResult=scene.testIntersect(task.r);
 		auto riResult=scene.testLightReach(task.r);
 		if(!(iiResult.second.isIntersect)){
 			if(!(riResult.second.isReach)){
 				return;
 			}else{
-				pixel.r+=riResult.second.intensity.r*task.weight.r;
-				pixel.g+=riResult.second.intensity.g*task.weight.g;
-				pixel.b+=riResult.second.intensity.b*task.weight.b;
+				pixel+=riResult.second.intensity.scale(task.weight);
 				return;
 			}
 		}else{
 			if(riResult.second.isReach){
 				if(riResult.second.distance<iiResult.second.distance){
-					pixel.r+=riResult.second.intensity.r*task.weight.r;
-					pixel.g+=riResult.second.intensity.g*task.weight.g;
-					pixel.b+=riResult.second.intensity.b*task.weight.b;
+					pixel+=riResult.second.intensity.scale(task.weight);
 					return;
 				}
 			}
 			auto ii=iiResult.second;
 			auto mat=iiResult.first;
 			auto result=mat->transformRay(task.r,ii.normal,ii.pos);
-			//temp
-			Vector3 weight=result[0].weight;
-			for(const ::std::shared_ptr<Light>& light:scene.getLights()){
-				Vector3 intensity=light->getIntensity(ii.pos,[task,ii,scene](Vector3 intensity,Vector3 originPosition){
-					Vector3 toLight=(originPosition-ii.pos).normalized();
-					double distance=(originPosition-ii.pos).length();
-					Ray r(toLight,ii.pos);
-					r.step(eps);
-					auto test=scene.testIntersect(r).second;
-					if(test.isIntersect&&test.distance<distance){
-						return Vector3(0,0,0);
+			for(auto data:result){
+				Vector3 weight=data.weight*data.probablity;
+				if(data.isDiffuse){
+					for(const ::std::shared_ptr<Light>& light:scene.getLights()){
+						Vector3 intensity=light->getIntensity(ii.pos,[task,ii,scene](Vector3 intensity,Vector3 originPosition){
+							Vector3 toLight=(originPosition-ii.pos).normalized();
+							double distance=(originPosition-ii.pos).length();
+							Ray r(toLight,ii.pos);
+							r.step(eps);
+							auto test=scene.testIntersect(r).second;
+							if(test.isIntersect&&test.distance<distance){
+								return Vector3(0,0,0);
+							}
+							return dot(ii.normal,toLight)*intensity;
+						});
+						pixel+=intensity.scale(task.weight).scale(weight);
 					}
-					return dot(ii.normal,toLight)*intensity;
-				});
-				pixel.r+=intensity.r*task.weight.r*weight.r;
-				pixel.g+=intensity.g*task.weight.g*weight.g;
-				pixel.b+=intensity.b*task.weight.b*weight.b;
+				}else{
+					Ray nextRay=data.newRay;
+					nextRay.step(eps);
+					RayTracingTask next{nextRay,task.weight.scale(weight)};
+					addTask(next);
+				}
 			}
 		}
 	});

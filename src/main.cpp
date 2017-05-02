@@ -13,6 +13,7 @@
 #include "Sphere.h"
 #include "Material.h"
 #include "DiffuseMaterial.h"
+#include "MirrorMaterial.h"
 #include "Light.h"
 #include "PointLight.h"
 #include "Object.h"
@@ -22,21 +23,28 @@
 int main(int argc,char** argv){
 	::std::cout<<"still working\n";
 
-	Bitmap bitmap(100,100);
+	Bitmap bitmap(200,200);
 
 	Scene scene;
 
-	Camera cam(50);
+	Camera cam(100);
 
-	::std::shared_ptr<Object> o1(new Object);
+	::std::shared_ptr<Object> o1(new Object),o2(new Object);
 
 	::std::shared_ptr<Geometry> wall(new Sphere(10000));
 	::std::shared_ptr<Material> whiteDiffuse(new DiffuseMaterial(Vector3(1,1,1)));
+	::std::shared_ptr<Material> mirror(new MirrorMaterial());
 
 	o1->transform.setPosition(Vector3(10,10,120));
 	o1->geometry=::std::shared_ptr<Geometry>(new Sphere(20));
 	o1->material=whiteDiffuse;
+	scene.addObject(o1);
 
+
+	o2->transform.setPosition(Vector3(-40,40,140));
+	o2->geometry=::std::shared_ptr<Geometry>(new Sphere(20));
+	o2->material=mirror;
+	scene.addObject(o2);
 
 	auto makeWall=[&scene,wall](Vector3 pos,Vector3 color=Vector3(1,1,1)){
 		::std::shared_ptr<Object> w(new Object);
@@ -52,7 +60,6 @@ int main(int argc,char** argv){
 	makeWall(Vector3(0,10100,100),Vector3(1,0.5,0));
 	makeWall(Vector3(0,-10100,100),Vector3(0.5,1,0));
 
-	scene.addObject(o1);
 
 	::std::shared_ptr<Light> l(new PointLight(Vector3(-30,-30,100),Vector3(1,1,1)));
 

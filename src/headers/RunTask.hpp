@@ -3,6 +3,8 @@
 #include <functional>
 #include <queue>
 
+#include <iostream>
+
 template<typename Task>
 inline void runTask(Task init,::std::function<void(Task,::std::function<void(Task)>)> processer){
 	::std::queue<Task> tasks;

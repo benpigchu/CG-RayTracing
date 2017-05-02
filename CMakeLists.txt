@@ -8,6 +8,7 @@ add_executable(rt
 	src/Bitmap.cpp
 	src/Camera.cpp
 	src/DiffuseMaterial.cpp
+	src/MirrorMaterial.cpp
 	src/Object.cpp
 	src/PointLight.cpp
 	src/Scene.cpp

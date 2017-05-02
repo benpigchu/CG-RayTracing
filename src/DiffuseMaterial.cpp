@@ -1,3 +1,5 @@
+#include "Vector3.h"
+#include "Ray.h"
 #include "Material.h"
 #include "DiffuseMaterial.h"
 

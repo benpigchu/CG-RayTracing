@@ -74,6 +74,15 @@ struct Vector3{
 	friend inline Vector3 cross(Vector3 v,Vector3 u)noexcept{
 		return Vector3(v.y*u.z-v.z*u.y,v.z*u.x-v.x*u.z,v.x*u.y-v.y*u.x);
 	}
+	inline Vector3 scaled(Vector3 s)noexcept{
+		return Vector3(this->x*s.x,this->y*s.y,this->z*s.z);
+	}
+	inline Vector3& scale(Vector3 s)noexcept{
+		this->x*=s.x;
+		this->y*=s.y;
+		this->z*=s.z;
+		return *this;
+	}
 	inline double length()const noexcept{
 		return ::std::sqrt(this->sqrLength());
 	}
