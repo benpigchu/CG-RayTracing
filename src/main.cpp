@@ -19,6 +19,7 @@
 #include "Object.h"
 #include "Camera.h"
 #include "RunTask.hpp"
+#include "renderer.h"
 
 int main(int argc,char** argv){
 	::std::cout<<"still working\n";
@@ -40,8 +41,7 @@ int main(int argc,char** argv){
 	o1->material=whiteDiffuse;
 	scene.addObject(o1);
 
-
-	o2->transform.setPosition(Vector3(-40,40,140));
+	o2->transform.setPosition(Vector3(-40,-40,140));
 	o2->geometry=::std::shared_ptr<Geometry>(new Sphere(20));
 	o2->material=mirror;
 	scene.addObject(o2);
@@ -61,11 +61,11 @@ int main(int argc,char** argv){
 	makeWall(Vector3(0,-10100,100),Vector3(0.5,1,0));
 
 
-	::std::shared_ptr<Light> l(new PointLight(Vector3(-30,-30,100),Vector3(1,1,1)));
+	::std::shared_ptr<Light> l(new PointLight(Vector3(30,-30,100),Vector3(1,1,1)));
 
 	scene.addLight(l);
 
-	cam.render(bitmap,scene);
+	Renderer::rayTracing(bitmap,scene,cam);
 
 	::std::ofstream file("test.ppm",::std::ios::out|std::ios::binary);
 
