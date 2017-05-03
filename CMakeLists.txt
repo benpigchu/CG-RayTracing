@@ -13,5 +13,6 @@ add_executable(rt
 	src/Renderer.cpp
 	src/Scene.cpp
 	src/Sphere.cpp
+	src/Square.cpp
 	src/main.cpp
 	)

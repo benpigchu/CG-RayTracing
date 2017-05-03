@@ -11,6 +11,7 @@
 #include "Ray.h"
 #include "Geometry.h"
 #include "Sphere.h"
+#include "Square.h"
 #include "Material.h"
 #include "DiffuseMaterial.h"
 #include "MirrorMaterial.h"
@@ -30,21 +31,27 @@ int main(int argc,char** argv){
 
 	Camera cam(100);
 
-	::std::shared_ptr<Object> o1(new Object),o2(new Object);
+	::std::shared_ptr<Object> o1(new Object),o2(new Object),o3(new Object);
 
 	::std::shared_ptr<Geometry> wall(new Sphere(10000));
 	::std::shared_ptr<Material> whiteDiffuse(new DiffuseMaterial(Vector3(1,1,1)));
-	::std::shared_ptr<Material> mirror(new MirrorMaterial());
+	::std::shared_ptr<Material> mirror(new MirrorMaterial(Vector3(0.45,0.65,0.85)));
 
 	o1->transform.setPosition(Vector3(10,10,120));
 	o1->geometry=::std::shared_ptr<Geometry>(new Sphere(20));
 	o1->material=whiteDiffuse;
 	scene.addObject(o1);
 
-	o2->transform.setPosition(Vector3(-40,-40,140));
+	o2->transform.setPosition(Vector3(-40,40,140));
 	o2->geometry=::std::shared_ptr<Geometry>(new Sphere(20));
 	o2->material=mirror;
 	scene.addObject(o2);
+
+	o3->transform.setPosition(Vector3(80,0,180));
+	o3->transform.setRotation(Quaternion::fromAxisRotation(Vector3(0,1,0),-PI*3/4));
+	o3->geometry=::std::shared_ptr<Geometry>(new Square(60));
+	o3->material=mirror;
+	scene.addObject(o3);
 
 	auto makeWall=[&scene,wall](Vector3 pos,Vector3 color=Vector3(1,1,1)){
 		::std::shared_ptr<Object> w(new Object);
