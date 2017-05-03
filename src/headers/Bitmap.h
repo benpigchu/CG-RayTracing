@@ -24,7 +24,7 @@ class Bitmap{
 		return this->width;
 	}
 	inline Vector3& at(ptrdiff_t x,ptrdiff_t y){
-		if(x<0||x>=height||y<0||y>=width){
+		if(x<0||x>=width||y<0||y>=height){
 			throw ::std::out_of_range("Bitmap element access out of range.");
 		}
 		return this->data[x+y*this->width];

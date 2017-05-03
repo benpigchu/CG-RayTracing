@@ -20,5 +20,5 @@ LightReachInfo PointLight::testReach(Ray r)const noexcept{
 }
 
 Vector3 PointLight::getIntensity(Vector3 position,::std::function<Vector3(Vector3,Vector3)> filter)const noexcept{
-	return filter(this->position,this->intensity);
+	return filter(this->intensity,this->position);
 }

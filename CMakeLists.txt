@@ -4,6 +4,8 @@ project(CG-RayTracing)
 include_directories(src)
 include_directories(src/headers)
 
+set(CMAKE_BUILD_TYPE Release)
+
 add_executable(rt
 	src/Bitmap.cpp
 	src/DiffuseMaterial.cpp
@@ -14,5 +16,6 @@ add_executable(rt
 	src/Scene.cpp
 	src/Sphere.cpp
 	src/Square.cpp
+	src/SquareLight.cpp
 	src/main.cpp
 	)

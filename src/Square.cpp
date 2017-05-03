@@ -4,13 +4,11 @@
 #include "Vector3.h"
 #include "Ray.h"
 
-#include <iostream>
-
 IntersectInfo Square::testIntersect(Ray r)const noexcept{
 	IntersectInfo ii;
-	if(r.start.z<0){
+	if(r.start.z<0&&r.getDirection().z<0){
 		ii.isIntersect=false;
-	}else if(r.getDirection().z>0){
+	}else if(r.start.z>0&&r.getDirection().z>0){
 		ii.isIntersect=false;
 	}else{
 		ii.distance=-r.start.z/r.getDirection().z;

@@ -17,6 +17,7 @@
 #include "MirrorMaterial.h"
 #include "Light.h"
 #include "PointLight.h"
+#include "SquareLight.h"
 #include "Object.h"
 #include "Camera.h"
 #include "RunTask.hpp"
@@ -34,8 +35,8 @@ int main(int argc,char** argv){
 	::std::shared_ptr<Object> o1(new Object),o2(new Object),o3(new Object);
 
 	::std::shared_ptr<Geometry> wall(new Sphere(10000));
-	::std::shared_ptr<Material> whiteDiffuse(new DiffuseMaterial(Vector3(1,1,1)));
-	::std::shared_ptr<Material> mirror(new MirrorMaterial(Vector3(0.45,0.65,0.85)));
+	::std::shared_ptr<Material> whiteDiffuse(new DiffuseMaterial(Vector3(0.45,0.65,0.85)));
+	::std::shared_ptr<Material> mirror(new MirrorMaterial(Vector3(0.8,0.8,0.8)));
 
 	o1->transform.setPosition(Vector3(10,10,120));
 	o1->geometry=::std::shared_ptr<Geometry>(new Sphere(20));
@@ -68,9 +69,13 @@ int main(int argc,char** argv){
 	makeWall(Vector3(0,-10100,100),Vector3(0.5,1,0));
 
 
-	::std::shared_ptr<Light> l(new PointLight(Vector3(30,-30,100),Vector3(1,1,1)));
+	::std::shared_ptr<Light> l(new PointLight(Vector3(0.2,0.2,0.6),Vector3(30,-30,100)));
+	::std::shared_ptr<SquareLight> sql(new SquareLight(Vector3(1,1,1),20));
+	sql->transform.setPosition(Vector3(0,-90,100));
+	sql->transform.setRotation(Quaternion::fromAxisRotation(Vector3(1,0,0),-PI/2));
 
 	scene.addLight(l);
+	scene.addLight(sql);
 
 	Renderer::rayTracing(bitmap,scene,cam);
 

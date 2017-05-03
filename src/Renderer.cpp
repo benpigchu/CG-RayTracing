@@ -8,6 +8,8 @@
 #include "Util.h"
 #include "RunTask.hpp"
 
+#include <iostream>
+
 void Renderer::rayTracing(Bitmap& bitmap,const Scene& scene,const Camera& camera)noexcept{
 	auto renderer=[](Ray r,const Scene& scene){
 		Vector3 pixel;
@@ -45,15 +47,15 @@ void Renderer::rayTracing(Bitmap& bitmap,const Scene& scene,const Camera& camera
 					if(data.isDiffuse){
 						for(const ::std::shared_ptr<Light>& light:scene.getLights()){
 							Vector3 intensity=light->getIntensity(ii.pos,[task,ii,scene](Vector3 intensity,Vector3 originPosition){
-								Vector3 toLight=(originPosition-ii.pos).normalized();
+								Vector3 fromLight=(ii.pos-originPosition).normalized();
 								double distance=(originPosition-ii.pos).length();
-								Ray r(toLight,ii.pos);
-								r.step(eps);
+								Ray r(fromLight,originPosition);
+								r.step(-eps);
 								auto test=scene.testIntersect(r).second;
 								if(test.isIntersect&&test.distance<distance){
 									return Vector3(0,0,0);
 								}
-								return dot(ii.normal,toLight)*intensity;
+								return dot(ii.normal,Vector3(0,0,0)-fromLight)*intensity;
 							});
 							pixel+=intensity.scaled(task.weight).scaled(weight);
 						}
@@ -70,12 +72,13 @@ void Renderer::rayTracing(Bitmap& bitmap,const Scene& scene,const Camera& camera
 	};
 	size_t height=bitmap.getHeight();
 	size_t width=bitmap.getWidth();
-	for(int i=0;i<height;i++){
-		for(int j=0;j<width;j++){
+	for(int i=0;i<width;i++){
+		for(int j=0;j<height;j++){
 			double x=i+0.5-width/2.0;
 			double y=j+0.5-height/2.0;
 			Vector3& pixel=bitmap.at(i,j);
 			pixel=renderer(camera.makeRay(x,y),scene);
 		}
+		::std::cout<<"rendering... ["<<i<<"]"<<::std::endl;
 	}
 }
