@@ -3,7 +3,7 @@
 #include "Scene.h"
 #include "Renderer.h"
 #include "Material.h"
-#include "vector3.h"
+#include "Vector3.h"
 #include "Ray.h"
 #include "Util.h"
 #include "RunTask.hpp"
@@ -19,7 +19,7 @@ void Renderer::rayTracing(Bitmap& bitmap,const Scene& scene,const Camera& camera
 			Vector3 weight;
 		};
 		RayTracingTask init{r,Vector3(1,1,1)};
-		runTask<RayTracingTask>(init,[&pixel,&scene](RayTracingTask task,auto addTask){
+		runTaskFIFO<RayTracingTask>(init,[&pixel,&scene](RayTracingTask task,auto addTask){
 			if(task.weight.length()<eps){
 				return;
 			}

@@ -7,6 +7,7 @@ include_directories(src/headers)
 set(CMAKE_BUILD_TYPE Release)
 
 add_executable(rt
+	src/AABB.cpp
 	src/Bitmap.cpp
 	src/DiffuseMaterial.cpp
 	src/MirrorMaterial.cpp

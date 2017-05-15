@@ -4,6 +4,7 @@
 #include <fstream>
 #include "Vector3.h"
 #include "Bitmap.h"
+#include "AABB.h"
 #include "Matrix4.h"
 #include "Util.h"
 #include "Quaternion.h"
