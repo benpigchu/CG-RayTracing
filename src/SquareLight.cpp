@@ -11,7 +11,7 @@ LightReachInfo SquareLight::testReach(Ray r)const noexcept{
 	IntersectInfo ii=this->square.testIntersect(rayBeforeTransform);
 	lri.isReach=ii.isIntersect;
 	lri.distance=ii.distance;
-	lri.intensity=this->intensity;
+	lri.intensity=(dot(r.getDirection(),apply(this->transform.getRotation(),ii.normal))>0)?Vector3(0,0,0):this->intensity;
 	return lri;
 }
 
