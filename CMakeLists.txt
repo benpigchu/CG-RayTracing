@@ -10,6 +10,7 @@ add_executable(rt
 	src/AABB.cpp
 	src/Bitmap.cpp
 	src/DiffuseMaterial.cpp
+	src/Mesh.cpp
 	src/MirrorMaterial.cpp
 	src/Object.cpp
 	src/PointLight.cpp
