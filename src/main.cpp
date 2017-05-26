@@ -24,6 +24,7 @@
 #include "RunTask.hpp"
 #include "Renderer.h"
 #include "Mesh.h"
+#include "MeshGeometry.h"
 
 int main(int argc,char** argv){
 	::std::cout<<"still working\n";
@@ -84,9 +85,10 @@ int main(int argc,char** argv){
 	// ::std::ofstream file("test.ppm",::std::ios::out|std::ios::binary);
 
 	// bitmap.exportAsPPM(file);
-	::std::ifstream cubeFile("cube.obj",::std::ios::in);
-	::std::ofstream cubeFile2("cube2.obj",::std::ios::out);
-	Mesh::importFromOBJ(cubeFile).exportAsOBJ(cubeFile2);
 
+	::std::ifstream cubeFile("cube.obj",::std::ios::in);
+	Mesh m=Mesh::importFromOBJ(cubeFile);
+	::std::shared_ptr<Geometry> mesh(new MeshGeometry(m));
+	::std::cout<<mesh->testIntersect(Ray(Vector3(3,2,1),Vector3(0.5,0.6,0.7)));
 	return 0;
 }

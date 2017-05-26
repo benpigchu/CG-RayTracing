@@ -250,6 +250,16 @@ struct Matrix4{
 		v.z=(m.x[2][0]*v.x+m.x[2][1]*v.y+m.x[2][2]*v.z+m.x[2][3])/w;
 		return v;
 	}
+	friend inline void applyTo(Matrix4 m,double& a,double& b,double& c,double& d){
+		double x=m.x[0][0]*a+m.x[0][1]*b+m.x[0][2]*c+m.x[0][3]*d;
+		double y=m.x[1][0]*a+m.x[1][1]*b+m.x[1][2]*c+m.x[1][3]*d;
+		double z=m.x[2][0]*a+m.x[2][1]*b+m.x[2][2]*c+m.x[2][3]*d;
+		double w=m.x[3][0]*a+m.x[3][1]*b+m.x[3][2]*c+m.x[3][3]*d;
+		a=x;
+		b=y;
+		c=z;
+		d=w;
+	}
 	friend inline ::std::ostream& operator<<(::std::ostream& os,const Matrix4& m)noexcept{
 		os<<"[["<<m.x[0][0]<<" "<<m.x[0][1]<<" "<<m.x[0][2]<<" "<<m.x[0][3]<<"] "<<"\n";
 		os<<" ["<<m.x[1][0]<<" "<<m.x[1][1]<<" "<<m.x[1][2]<<" "<<m.x[1][3]<<"] "<<"\n";

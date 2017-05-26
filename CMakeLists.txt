@@ -11,6 +11,7 @@ add_executable(rt
 	src/Bitmap.cpp
 	src/DiffuseMaterial.cpp
 	src/Mesh.cpp
+	src/MeshGeometry.cpp
 	src/MirrorMaterial.cpp
 	src/Object.cpp
 	src/PointLight.cpp
