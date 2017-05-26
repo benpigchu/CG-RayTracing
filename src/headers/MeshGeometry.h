@@ -2,6 +2,7 @@
 #define MESHGEOMETRY_H
 #include <vector>
 #include "Geometry.h"
+#include "Vector3.h"
 #include "Mesh.h"
 
 struct Triangle{
@@ -13,10 +14,10 @@ struct Triangle{
 class MeshGeometry:public Geometry{
 	::std::vector<Triangle> triangles;
 	public:
-	MeshGeometry(Mesh mesh)noexcept{
-		setMesh(mesh);
+	MeshGeometry(Mesh mesh,Vector3 scale=Vector3(1,1,1))noexcept{
+		setMesh(mesh,scale);
 	}
-	void setMesh(Mesh mesh)noexcept;
+	void setMesh(Mesh mesh,Vector3 scale)noexcept;
 	IntersectInfo testIntersect(Ray r)const noexcept;
 };
 

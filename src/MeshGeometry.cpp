@@ -28,19 +28,20 @@ IntersectInfo Triangle::testIntersect(Ray r)const noexcept{
 		ii.isIntersect=true;
 		ii.distance=d;
 		ii.pos=r.start+d*t;
+		ii.normal=this->nm;
 	}else{
 		ii.isIntersect=false;
 	}
 	return ii;
 }
 
-void MeshGeometry::setMesh(Mesh mesh)noexcept{
+void MeshGeometry::setMesh(Mesh mesh,Vector3 scale)noexcept{
 	this->triangles.clear();
 	for(Face f:mesh.faces){
 		Triangle tri;
-		tri.point[0]=mesh.vertices[f.i[0]].pos;
-		tri.point[1]=mesh.vertices[f.i[1]].pos;
-		tri.point[2]=mesh.vertices[f.i[2]].pos;
+		tri.point[0]=mesh.vertices[f.i[0]].pos.scaled(scale);
+		tri.point[1]=mesh.vertices[f.i[1]].pos.scaled(scale);
+		tri.point[2]=mesh.vertices[f.i[2]].pos.scaled(scale);
 		tri.nm=cross(tri.point[1]-tri.point[0],tri.point[2]-tri.point[1]).normalize();
 		this->triangles.push_back(tri);
 	}
