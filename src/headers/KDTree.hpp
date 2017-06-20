@@ -5,7 +5,6 @@
 #include <algorithm>
 #include <vector>
 #include "RunTask.hpp"
-#include "Util.h"
 #include "AABB.h"
 
 // base class to create kd-tree struct
@@ -13,19 +12,17 @@ template<typename Data,typename NodeInfo=Nothing>
 class KDTree{
 	protected:
 	// get AABB of data
-	static virtual AABB getAABB(Data d)noexcept=0;
+	virtual AABB getAABB(Data d)const noexcept=0;
 	// generate subNode
-	static virtual void processNode(Node& node)noexcept=0;
-	enum Axis{X=0,Y=1,Z=2,NONE=-1};
 	struct Node{
-		Node* left,right;
+		Node *left,*right;
 		AABB aabb;
-		Axis axis;
 		NodeInfo info;
 		::std::vector<Data> datas;
 	};
+	virtual void processNode(Node& node)const noexcept=0;
 	Node* root;
-	Node* makeNode(::std::vector<Data> datas)const noexcept{
+	static inline Node* makeNode(::std::vector<Data> datas)noexcept{
 		double minx=::std::numeric_limits<double>::infinity(),miny=::std::numeric_limits<double>::infinity(),minz=::std::numeric_limits<double>::infinity();
 		double maxx=-::std::numeric_limits<double>::infinity(),maxy=-::std::numeric_limits<double>::infinity(),maxz=-::std::numeric_limits<double>::infinity();
 		for(Data data:datas){
@@ -37,29 +34,29 @@ class KDTree{
 			minz=::std::min(minz,::std::min(aabb.min.z,aabb.max.z));
 			maxz=::std::max(maxz,::std::max(aabb.min.z,aabb.max.z));
 		}
-		return new Node{null,null,AABB(Vector3(minx,miny,minz),Vector3(maxx,maxy,maxz)),NONE,NodeInfo(),datas}
+		return new Node{NULL,NULL,AABB(Vector3(minx,miny,minz),Vector3(maxx,maxy,maxz)),NodeInfo(),datas};
 	}
 	KDTree(::std::vector<Data> datas)noexcept{
-		this->root=this->makeNode(datas);
+		this->root=makeNode(datas);
 		runTaskFILO<Node*>(this->root,[](Node* node,auto addTask){
-			if(node!=null){
+			if(node!=NULL){
 				processNode(*node);
 				addTask(node->left);
 				addTask(node->right);
 			}
-		})
+		});
 	}
-	static void removeNode(Node* n){
+	static inline void removeNode(Node* n){
 		runTaskFILO<Node*>(n,[](Node* node,auto addTask){
-			if(node!=null){
+			if(node!=NULL){
 				addTask(node->left);
 				addTask(node->right);
 				delete node;
 			}
-		})
+		});
 	}
 	~KDTree(){
-		removeNode(this->root)
+		removeNode(this->root);
 	}
 };
 

@@ -12,6 +12,7 @@ add_executable(rt
 	src/DiffuseMaterial.cpp
 	src/Mesh.cpp
 	src/MeshGeometry.cpp
+	src/MeshIntersectOptimiser.cpp
 	src/MirrorMaterial.cpp
 	src/Object.cpp
 	src/PointLight.cpp
@@ -20,5 +21,6 @@ add_executable(rt
 	src/Sphere.cpp
 	src/Square.cpp
 	src/SquareLight.cpp
+	src/Triangle.cpp
 	src/main.cpp
 	)

@@ -6,4 +6,6 @@ const double eps=1e-5;
 
 struct Nothing{};
 
+enum class Axis:char{X='x',Y='y',Z='z',NONE='-'};
+
 #endif //UTIL_H
