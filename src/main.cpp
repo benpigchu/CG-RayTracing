@@ -75,13 +75,13 @@ int main(int argc,char** argv){
 	makeWall(Vector3(0,-10100,100),Vector3(0.5,1,0));
 
 
-	::std::shared_ptr<Light> l(new PointLight(Vector3(0.2,0.2,0.6),Vector3(30,-30,100)));
+	::std::shared_ptr<Light> l(new PointLight(Vector3(1,1,1/*0.2,0.2,0.6*/),Vector3(30,-30,100)));
 	::std::shared_ptr<SquareLight> sql(new SquareLight(Vector3(1,1,1),20));
 	sql->transform.setPosition(Vector3(0,-90,100));
 	sql->transform.setRotation(Quaternion::fromAxisRotation(Vector3(1,0,0),-PI/2));
 
 	scene.addLight(l);
-	scene.addLight(sql);
+	// scene.addLight(sql);
 
 	Renderer::rayTracing(bitmap,scene,cam);
 

@@ -4,6 +4,7 @@
 #include "Geometry.h"
 #include "Mesh.h"
 #include "MeshGeometry.h"
+#include "MeshIntersectOptimiser.h"
 
 #include <iostream>
 
@@ -17,9 +18,15 @@ void MeshGeometry::setMesh(Mesh mesh,Vector3 scale)noexcept{
 		tri.nm=cross(tri.point[1]-tri.point[0],tri.point[2]-tri.point[1]).normalize();
 		this->triangles.push_back(tri);
 	}
+	if(MeshGeometry::USE_KDTREE_OPTIMISE){
+		this->kdTree.init(this->triangles);
+	}
 }
 
 IntersectInfo MeshGeometry::testIntersect(Ray r)const noexcept{
+	if(MeshGeometry::USE_KDTREE_OPTIMISE){
+		return this->kdTree.testIntersect(r);
+	}
 	IntersectInfo ii;
 	ii.isIntersect=false;
 	for(Triangle tri:this->triangles){

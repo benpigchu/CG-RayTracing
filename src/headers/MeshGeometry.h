@@ -6,9 +6,11 @@
 #include "Ray.h"
 #include "Mesh.h"
 #include "Triangle.h"
+#include "MeshIntersectOptimiser.h"
 
 class MeshGeometry:public Geometry{
-	static const bool USE_KDTREE_OPTIMISE=false;
+	static const bool USE_KDTREE_OPTIMISE=true;
+	MeshIntersectOptimiser kdTree;
 	::std::vector<Triangle> triangles;
 	public:
 	MeshGeometry(Mesh mesh,Vector3 scale=Vector3(1,1,1))noexcept{

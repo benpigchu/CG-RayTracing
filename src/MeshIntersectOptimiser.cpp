@@ -9,6 +9,8 @@
 #include "Triangle.h"
 #include "MeshIntersectOptimiser.h"
 
+#include <iostream>
+
 AABB MeshIntersectOptimiser::getAABB(Triangle d)const noexcept{
 	double xmin=::std::min(d.point[0].x,::std::min(d.point[1].x,d.point[2].x));
 	double ymin=::std::min(d.point[0].y,::std::min(d.point[1].y,d.point[2].y));
@@ -110,15 +112,18 @@ IntersectInfo MeshIntersectOptimiser::testIntersect(Ray r)const noexcept{
 		}else{
 			for(Triangle tri:task.node->datas){
 				IntersectInfo newii=tri.testIntersect(r);
-				if(ii.isIntersect){
-					if(ii.distance>=newii.distance){
+				if(newii.isIntersect){
+					if(ii.isIntersect){
+						if(ii.distance>=newii.distance){
+							ii=newii;
+						}
+					}else{
 						ii=newii;
 					}
-				}else{
-					ii=newii;
 				}
 			}
 		}
 	});
+	::std::cout<<ii<<::std::endl;
 	return ii;
 }

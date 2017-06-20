@@ -6,6 +6,9 @@
 #include <vector>
 #include "RunTask.hpp"
 #include "AABB.h"
+#include "Util.h"
+
+#include <iostream>
 
 // base class to create kd-tree struct
 template<typename Data,typename NodeInfo=Nothing>
@@ -13,13 +16,13 @@ class KDTree{
 	protected:
 	// get AABB of data
 	virtual AABB getAABB(Data d)const noexcept=0;
-	// generate subNode
 	struct Node{
 		Node *left,*right;
 		AABB aabb;
 		NodeInfo info;
 		::std::vector<Data> datas;
 	};
+	// generate subNode
 	virtual void processNode(Node& node)const noexcept=0;
 	Node* root;
 	inline Node* makeNode(::std::vector<Data> datas)const noexcept{
@@ -36,16 +39,6 @@ class KDTree{
 		}
 		return new Node{NULL,NULL,AABB(Vector3(minx,miny,minz),Vector3(maxx,maxy,maxz)),NodeInfo(),datas};
 	}
-	KDTree(::std::vector<Data> datas)noexcept{
-		this->root=makeNode(datas);
-		runTaskLIFO<Node*>(this->root,[](Node* node,auto addTask){
-			if(node!=NULL){
-				processNode(*node);
-				addTask(node->left);
-				addTask(node->right);
-			}
-		});
-	}
 	inline void removeNode(Node* n)const noexcept{
 		runTaskLIFO<Node*>(n,[](Node* node,auto addTask){
 			if(node!=NULL){
@@ -57,6 +50,18 @@ class KDTree{
 	}
 	~KDTree()noexcept{
 		removeNode(this->root);
+	}
+	public:
+	void init(::std::vector<Data> datas)noexcept{
+		removeNode(this->root);
+		this->root=makeNode(datas);
+		runTaskLIFO<Node*>(this->root,[this](Node* node,auto addTask){
+			if(node!=NULL){
+				this->processNode(*node);
+				addTask(node->left);
+				addTask(node->right);
+			}
+		});
 	}
 };
 
