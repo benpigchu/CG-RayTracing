@@ -17,12 +17,12 @@ inline void runTaskFIFO(Task init,::std::function<void(Task,::std::function<void
 }
 
 template<typename Task>
-inline void runTaskFILO(Task init,::std::function<void(Task,::std::function<void(Task)>)> processer){
+inline void runTaskLIFO(Task init,::std::function<void(Task,::std::function<void(Task)>)> processer){
 	::std::stack<Task> tasks;
 	auto addTask=[&tasks](Task t){tasks.push(t);};
 	addTask(init);
 	while(!tasks.empty()){
-		Task t=tasks.front();
+		Task t=tasks.top();
 		tasks.pop();
 		processer(t,addTask);
 	}

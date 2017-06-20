@@ -7,7 +7,7 @@
 class MeshIntersectOptimiser:KDTree<Triangle>{
 	AABB getAABB(Triangle d)const noexcept override;
 	void processNode(Node& node)const noexcept override;
-	// IntersectInfo testIntersect(Ray r)const noexcept;
+	IntersectInfo testIntersect(Ray r)const noexcept;
 };
 
 #endif //MESHINTERSECTOPTIMISER_H

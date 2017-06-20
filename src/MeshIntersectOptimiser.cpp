@@ -62,8 +62,63 @@ void MeshIntersectOptimiser::processNode(Node& node)const noexcept{
 		::std::copy(node.datas.begin(),node.datas.begin()+node.datas.size()/2,::std::back_inserter(l));
 		::std::copy(node.datas.begin()+node.datas.size()/2,node.datas.end(),::std::back_inserter(r));
 		//make subnode
-		node.left=makeNode(l);
-		node.right=makeNode(r);
+		node.left=this->makeNode(l);
+		node.right=this->makeNode(r);
 		//return
+		node.datas.clear();
 	}
+}
+
+IntersectInfo MeshIntersectOptimiser::testIntersect(Ray r)const noexcept{
+	IntersectInfo ii;
+	ii.isIntersect=false;
+	struct IntersectTestTask{
+		Node* node;
+		AABBIntersectInfo aabbii;
+	};
+	IntersectTestTask init{this->root,this->root->aabb.testIntersect(r)};
+	if(init.aabbii.isIntersect==false){
+		return ii;
+	}
+	runTaskLIFO<IntersectTestTask>(init,[&ii,r](IntersectTestTask task,auto addTask){
+		if(ii.isIntersect){
+			if(ii.distance<task.aabbii.near){
+				return;
+			}
+		}
+		if(task.node->left!=NULL||task.node->right!=NULL){
+			AABBIntersectInfo laabbii=task.node->left->aabb.testIntersect(r);
+			AABBIntersectInfo raabbii=task.node->right->aabb.testIntersect(r);
+			if(laabbii.isIntersect){
+				if(raabbii.isIntersect){
+					if(laabbii.near<raabbii.near){
+						addTask({task.node->right,raabbii});
+						addTask({task.node->left,laabbii});
+					}else{
+						addTask({task.node->left,laabbii});
+						addTask({task.node->right,raabbii});
+					}
+				}else{
+					addTask({task.node->left,laabbii});
+				}
+			}else{
+				if(raabbii.isIntersect){
+					addTask({task.node->right,raabbii});
+				}
+			}
+			return;
+		}else{
+			for(Triangle tri:task.node->datas){
+				IntersectInfo newii=tri.testIntersect(r);
+				if(ii.isIntersect){
+					if(ii.distance>=newii.distance){
+						ii=newii;
+					}
+				}else{
+					ii=newii;
+				}
+			}
+		}
+	});
+	return ii;
 }

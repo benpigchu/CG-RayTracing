@@ -22,7 +22,7 @@ class KDTree{
 	};
 	virtual void processNode(Node& node)const noexcept=0;
 	Node* root;
-	static inline Node* makeNode(::std::vector<Data> datas)noexcept{
+	inline Node* makeNode(::std::vector<Data> datas)const noexcept{
 		double minx=::std::numeric_limits<double>::infinity(),miny=::std::numeric_limits<double>::infinity(),minz=::std::numeric_limits<double>::infinity();
 		double maxx=-::std::numeric_limits<double>::infinity(),maxy=-::std::numeric_limits<double>::infinity(),maxz=-::std::numeric_limits<double>::infinity();
 		for(Data data:datas){
@@ -38,7 +38,7 @@ class KDTree{
 	}
 	KDTree(::std::vector<Data> datas)noexcept{
 		this->root=makeNode(datas);
-		runTaskFILO<Node*>(this->root,[](Node* node,auto addTask){
+		runTaskLIFO<Node*>(this->root,[](Node* node,auto addTask){
 			if(node!=NULL){
 				processNode(*node);
 				addTask(node->left);
@@ -46,8 +46,8 @@ class KDTree{
 			}
 		});
 	}
-	static inline void removeNode(Node* n){
-		runTaskFILO<Node*>(n,[](Node* node,auto addTask){
+	inline void removeNode(Node* n)const noexcept{
+		runTaskLIFO<Node*>(n,[](Node* node,auto addTask){
 			if(node!=NULL){
 				addTask(node->left);
 				addTask(node->right);
@@ -55,7 +55,7 @@ class KDTree{
 			}
 		});
 	}
-	~KDTree(){
+	~KDTree()noexcept{
 		removeNode(this->root);
 	}
 };
