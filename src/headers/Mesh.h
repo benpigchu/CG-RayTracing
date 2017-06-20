@@ -18,6 +18,7 @@ struct Mesh{
 	::std::vector<Vertex> vertices;
 	::std::vector<Face> faces;
 	static Mesh importFromOBJ(::std::istream& is)noexcept;
+	static Mesh generateRotationFromBezier(/*TODO*/)noexcept;
 	void exportAsOBJ(::std::ostream& os)const noexcept;
 };
 

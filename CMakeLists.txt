@@ -8,6 +8,7 @@ set(CMAKE_BUILD_TYPE Release)
 
 add_executable(rt
 	src/AABB.cpp
+	src/BezierCurve.cpp
 	src/Bitmap.cpp
 	src/DiffuseMaterial.cpp
 	src/Mesh.cpp
