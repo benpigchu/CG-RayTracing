@@ -1,3 +1,4 @@
+#include <cstddef>
 #include "Bitmap.h"
 #include "Camera.h"
 #include "Scene.h"
@@ -14,13 +15,15 @@ void Renderer::rayTracing(Bitmap& bitmap,const Scene& scene,const Camera& camera
 	auto renderer=[](Ray r,const Scene& scene){
 		Vector3 pixel;
 		pixel=Vector3(0,0,0);
+		size_t maxDepth=16;
 		struct RayTracingTask{
 			Ray r;
 			Vector3 weight;
+			size_t depth;
 		};
-		RayTracingTask init{r,Vector3(1,1,1)};
-		runTaskFIFO<RayTracingTask>(init,[&pixel,&scene](RayTracingTask task,auto addTask){
-			if(task.weight.length()<eps){
+		RayTracingTask init{r,Vector3(1,1,1),0};
+		runTaskFIFO<RayTracingTask>(init,[&pixel,&scene,maxDepth](RayTracingTask task,auto addTask){
+			if(task.weight.length()<eps||task.depth>=maxDepth){
 				return;
 			}
 			auto iiResult=scene.testIntersect(task.r);
@@ -40,9 +43,15 @@ void Renderer::rayTracing(Bitmap& bitmap,const Scene& scene,const Camera& camera
 					}
 				}
 				auto ii=iiResult.second;
+				if(task.depth<=2&&task.depth>=1){
+					::std::cout<<"\n"<<ii.distance;
+				}
 				auto mat=iiResult.first;
 				auto result=mat->transformRay(task.r,ii.normal,ii.pos);
 				for(auto data:result){
+					if(task.depth<=2&&task.depth>=1){
+						::std::cout<<"\n"<<data;
+					}
 					Vector3 weight=data.weight*data.probablity;
 					if(data.isDiffuse){
 						for(const ::std::shared_ptr<Light>& light:scene.getLights()){
@@ -62,7 +71,8 @@ void Renderer::rayTracing(Bitmap& bitmap,const Scene& scene,const Camera& camera
 					}else{
 						Ray nextRay=data.newRay;
 						nextRay.step(eps);
-						RayTracingTask next{nextRay,task.weight.scaled(weight)};
+						// ::std::cout<<task.r<<task.weight<<weight<<std::endl;
+						RayTracingTask next{nextRay,task.weight.scaled(weight),task.depth+1};
 						addTask(next);
 					}
 				}

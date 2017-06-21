@@ -19,6 +19,7 @@
 #include "Material.h"
 #include "DiffuseMaterial.h"
 #include "MirrorMaterial.h"
+#include "GlassMaterial.h"
 #include "Light.h"
 #include "PointLight.h"
 #include "SquareLight.h"
@@ -43,6 +44,7 @@ int main(int argc,char** argv){
 	::std::shared_ptr<Geometry> wall(new Sphere(10000));
 	::std::shared_ptr<Material> whiteDiffuse(new DiffuseMaterial(Vector3(0.45,0.65,0.85)));
 	::std::shared_ptr<Material> mirror(new MirrorMaterial(Vector3(0.8,0.8,0.8)));
+	::std::shared_ptr<Material> glass(new GlassMaterial(2,Vector3(0.99,0.99,0.99)));
 
 	// ::std::vector<::std::pair<double,double>> controls{{0,0},{1,0},{2,0},{2,1},{3,1}};
 	// BezierCurve bc(controls);
@@ -60,9 +62,9 @@ int main(int argc,char** argv){
 	o1->material=whiteDiffuse;
 	scene.addObject(o1);
 
-	o2->transform.setPosition(Vector3(-40,40,140));
+	o2->transform.setPosition(Vector3(-40,40,100));
 	o2->geometry=::std::shared_ptr<Geometry>(new Sphere(20));
-	o2->material=mirror;
+	o2->material=glass;
 	scene.addObject(o2);
 
 	o3->transform.setPosition(Vector3(80,0,180));
@@ -83,10 +85,10 @@ int main(int argc,char** argv){
 	makeWall(Vector3(10100,0,100),Vector3(0,1,0));
 	makeWall(Vector3(-10100,0,100),Vector3(1,0,0));
 	makeWall(Vector3(0,10100,100),Vector3(1,0.5,0));
-	makeWall(Vector3(0,-10100,100),Vector3(0.5,1,0));
+	makeWall(Vector3(0,-10100,100),Vector3(0,0,0));
 
-	::std::shared_ptr<Light> l(new PointLight(Vector3(1,1,1/*0.2,0.2,0.6*/),Vector3(30,-30,100)));
-	::std::shared_ptr<SquareLight> sql(new SquareLight(Vector3(1,1,1),20));
+	::std::shared_ptr<Light> l(new PointLight(Vector3(/*0.2,0.2,0.6*/1,1,1),Vector3(30,-30,100)));
+	::std::shared_ptr<SquareLight> sql(new SquareLight(Vector3(1,1,1),10));
 	sql->transform.setPosition(Vector3(0,-90,100));
 	sql->transform.setRotation(Quaternion::fromAxisRotation(Vector3(1,0,0),-PI/2));
 
@@ -98,6 +100,7 @@ int main(int argc,char** argv){
 	::std::ofstream file("test.ppm",::std::ios::out|std::ios::binary);
 
 	bitmap.exportAsPPM(file);
+	auto x=glass->transformRay(Ray(Vector3(0,1,1)),Vector3(0,1,0),Vector3(0,0,0));
 
 	::std::cout<<::std::endl;
 
