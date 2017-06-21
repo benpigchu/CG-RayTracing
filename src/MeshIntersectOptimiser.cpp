@@ -124,6 +124,5 @@ IntersectInfo MeshIntersectOptimiser::testIntersect(Ray r)const noexcept{
 			}
 		}
 	});
-	::std::cout<<ii<<::std::endl;
 	return ii;
 }

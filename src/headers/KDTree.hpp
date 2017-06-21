@@ -24,7 +24,7 @@ class KDTree{
 	};
 	// generate subNode
 	virtual void processNode(Node& node)const noexcept=0;
-	Node* root;
+	Node* root=NULL;
 	inline Node* makeNode(::std::vector<Data> datas)const noexcept{
 		double minx=::std::numeric_limits<double>::infinity(),miny=::std::numeric_limits<double>::infinity(),minz=::std::numeric_limits<double>::infinity();
 		double maxx=-::std::numeric_limits<double>::infinity(),maxy=-::std::numeric_limits<double>::infinity(),maxz=-::std::numeric_limits<double>::infinity();
