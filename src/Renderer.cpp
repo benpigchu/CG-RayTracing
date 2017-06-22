@@ -43,15 +43,9 @@ void Renderer::rayTracing(Bitmap& bitmap,const Scene& scene,const Camera& camera
 					}
 				}
 				auto ii=iiResult.second;
-				if(task.depth<=2&&task.depth>=1){
-					::std::cout<<"\n"<<ii.distance;
-				}
 				auto mat=iiResult.first;
 				auto result=mat->transformRay(task.r,ii.normal,ii.pos);
 				for(auto data:result){
-					if(task.depth<=2&&task.depth>=1){
-						::std::cout<<"\n"<<data;
-					}
 					Vector3 weight=data.weight*data.probablity;
 					if(data.isDiffuse){
 						for(const ::std::shared_ptr<Light>& light:scene.getLights()){
@@ -71,7 +65,6 @@ void Renderer::rayTracing(Bitmap& bitmap,const Scene& scene,const Camera& camera
 					}else{
 						Ray nextRay=data.newRay;
 						nextRay.step(eps);
-						// ::std::cout<<task.r<<task.weight<<weight<<std::endl;
 						RayTracingTask next{nextRay,task.weight.scaled(weight),task.depth+1};
 						addTask(next);
 					}

@@ -8,8 +8,6 @@
 #include "AABB.h"
 #include "Util.h"
 
-#include <iostream>
-
 // base class to create kd-tree struct
 template<typename Data,typename NodeInfo=Nothing>
 class KDTree{

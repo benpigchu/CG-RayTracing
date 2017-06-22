@@ -21,6 +21,9 @@ class HitPointHost:public KDTree<HitPoint>{
 	protected:
 	AABB getAABB(HitPoint d)const noexcept override;
 	void processNode(Node& node)const noexcept override;
+	public:
+	// Don't modify position in forEach
+	void forEach(::std::function<void(HitPoint&)> func)noexcept;
 };
 
 

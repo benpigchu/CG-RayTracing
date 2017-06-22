@@ -44,7 +44,7 @@ int main(int argc,char** argv){
 	::std::shared_ptr<Geometry> wall(new Sphere(10000));
 	::std::shared_ptr<Material> whiteDiffuse(new DiffuseMaterial(Vector3(0.45,0.65,0.85)));
 	::std::shared_ptr<Material> mirror(new MirrorMaterial(Vector3(0.8,0.8,0.8)));
-	::std::shared_ptr<Material> glass(new GlassMaterial(2,Vector3(0.99,0.99,0.99)));
+	::std::shared_ptr<Material> glass(new GlassMaterial(1.2,Vector3(0.99,0.99,0.99)));
 
 	// ::std::vector<::std::pair<double,double>> controls{{0,0},{1,0},{2,0},{2,1},{3,1}};
 	// BezierCurve bc(controls);
@@ -95,12 +95,12 @@ int main(int argc,char** argv){
 	scene.addLight(l);
 	// scene.addLight(sql);
 
-	Renderer::rayTracing(bitmap,scene,cam);
+	// Renderer::rayTracing(bitmap,scene,cam);
 
 	::std::ofstream file("test.ppm",::std::ios::out|std::ios::binary);
 
 	bitmap.exportAsPPM(file);
-	auto x=glass->transformRay(Ray(Vector3(0,1,1)),Vector3(0,1,0),Vector3(0,0,0));
+	// auto x=glass->transformRay(Ray(Vector3(0,1,1)),Vector3(0,1,0),Vector3(0,0,0));
 
 	::std::cout<<::std::endl;
 

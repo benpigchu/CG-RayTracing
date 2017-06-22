@@ -9,8 +9,6 @@
 #include "Triangle.h"
 #include "MeshIntersectOptimiser.h"
 
-#include <iostream>
-
 AABB MeshIntersectOptimiser::getAABB(Triangle d)const noexcept{
 	double xmin=::std::min(d.point[0].x,::std::min(d.point[1].x,d.point[2].x));
 	double ymin=::std::min(d.point[0].y,::std::min(d.point[1].y,d.point[2].y));

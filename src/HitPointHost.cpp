@@ -1,6 +1,8 @@
 #include <cstddef>
+#include <functional>
 #include "Vector3.h"
 #include "KDTree.hpp"
+#include "RunTask.hpp"
 #include "HitPointHost.h"
 #include "AABB.h"
 
@@ -55,3 +57,15 @@ void HitPointHost::processNode(Node& node)const noexcept{
 	}
 }
 
+void HitPointHost::forEach(::std::function<void(HitPoint&)> func)noexcept{
+	runTaskLIFO<Node*>(this->root,[func](Node* node,auto addTask){
+		if(node->left!=NULL||node->right!=NULL){
+			addTask(node->left);
+			addTask(node->right);
+		}else{
+			for(HitPoint& hp:node->datas){
+				func(hp);
+			}
+		}
+	});
+}

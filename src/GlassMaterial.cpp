@@ -5,8 +5,6 @@
 #include "Material.h"
 #include "GlassMaterial.h"
 
-#include <iostream>
-
 ::std::vector<TransformedRayData> GlassMaterial::transformRay(Ray r,Vector3 normal,Vector3 pos)const noexcept{
 	TransformedRayData reflect;
 	TransformedRayData refract;
@@ -25,7 +23,6 @@
 	refract.isDiffuse=false;
 	refract.weight=this->color;
 	Vector3 newRefractDirection=n*r.getDirection()-(newdrdotnm+n*drdotnm)*normal;
-	::std::cout<<" "<<drdotnm<<" "<<newdrdotnmsqr<<" "<<newRefractDirection;
 	refract.newRay=Ray(newRefractDirection,pos);
 	double rOrth=(-n*drdotnm-newdrdotnm)/(-n*drdotnm+newdrdotnm);
 	double rPar=(-drdotnm-n*newdrdotnm)/(-drdotnm+n*newdrdotnm);

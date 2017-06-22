@@ -6,8 +6,6 @@
 #include "MeshGeometry.h"
 #include "MeshIntersectOptimiser.h"
 
-#include <iostream>
-
 void MeshGeometry::setMesh(Mesh mesh,Vector3 scale)noexcept{
 	this->triangles.clear();
 	for(Face f:mesh.faces){
