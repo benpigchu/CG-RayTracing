@@ -14,5 +14,6 @@ class SquareLight:public Light{
 	SquareLight(Vector3 intensity,double side,Transform transform=Transform())noexcept:intensity(intensity),square(Square(side)),transform(transform){}
 	LightReachInfo testReach(Ray r)const noexcept override;
 	Vector3 getIntensity(Vector3 position,::std::function<Vector3(Vector3,Vector3)> filter)const noexcept override;
+	Photon emit(::std::default_random_engine& gen)const noexcept override;
 };
 #endif //SQUARELIGHT_H
