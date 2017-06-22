@@ -69,3 +69,21 @@ void HitPointHost::forEach(::std::function<void(HitPoint&)> func)noexcept{
 		}
 	});
 }
+
+void HitPointHost::forEachInSphere(Vector3 pos,double radius,::std::function<void(HitPoint&)> func)noexcept{
+	runTaskLIFO<Node*>(this->root,[func,radius,pos](Node* node,auto addTask){
+		if(node->aabb.getDistance(pos)>radius){
+			return;
+		}
+		if(node->left!=NULL||node->right!=NULL){
+			addTask(node->left);
+			addTask(node->right);
+		}else{
+			for(HitPoint& hp:node->datas){
+				if((hp.position-pos).length()<=radius){
+					func(hp);
+				}
+			}
+		}
+	});
+};

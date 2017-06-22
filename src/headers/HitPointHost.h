@@ -24,6 +24,7 @@ class HitPointHost:public KDTree<HitPoint>{
 	public:
 	// Don't modify position in forEach
 	void forEach(::std::function<void(HitPoint&)> func)noexcept;
+	void forEachInSphere(Vector3 pos,double radius,::std::function<void(HitPoint&)> func)noexcept;
 };
 
 
