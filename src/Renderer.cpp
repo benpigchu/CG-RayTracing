@@ -85,3 +85,13 @@ void Renderer::rayTracing(Bitmap& bitmap,const Scene& scene,const Camera& camera
 		::std::cout<<"rendering... ["<<i<<"]"<<::std::endl;
 	}
 }
+
+void Renderer::PhotonMappingEngine::setupHitPoint()noexcept{
+
+}
+void Renderer::PhotonMappingEngine::processPhoton(size_t pass)noexcept{
+
+}
+void Renderer::PhotonMappingEngine::writeBitmap()noexcept{
+
+}
