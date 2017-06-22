@@ -12,6 +12,7 @@ add_executable(rt
 	src/Bitmap.cpp
 	src/DiffuseMaterial.cpp
 	src/GlassMaterial.cpp
+	src/HitPointHost.cpp
 	src/Mesh.cpp
 	src/MeshGeometry.cpp
 	src/MeshIntersectOptimiser.cpp
