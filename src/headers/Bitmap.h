@@ -10,7 +10,7 @@ class Bitmap{
 	::std::vector<Vector3> data;
 	size_t height,width;
 	public:
-	Bitmap(size_t height,size_t width)noexcept:height(height),width(width),data(::std::vector<Vector3>(height*width)){}
+	Bitmap(size_t width,size_t height)noexcept:height(height),width(width),data(::std::vector<Vector3>(height*width)){}
 	inline const Vector3& at(ptrdiff_t x,ptrdiff_t y)const{
 		if(x<0||x>=width||y<0||y>=height){
 			throw ::std::out_of_range("Bitmap element access out of range.");

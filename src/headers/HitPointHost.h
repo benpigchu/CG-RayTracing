@@ -13,8 +13,9 @@ struct HitPoint{
 	ptrdiff_t imageX,imageY;
 	Vector3 weight;
 	double radius;
-	size_t photonCount;
-	size_t newPhotonCount;
+	Vector3 intensity=Vector3(0,0,0);
+	double photonCount=0;
+	double newPhotonCount=0;
 };
 
 class HitPointHost:public KDTree<HitPoint>{

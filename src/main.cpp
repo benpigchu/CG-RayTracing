@@ -44,7 +44,7 @@ int main(int argc,char** argv){
 	::std::shared_ptr<Geometry> wall(new Sphere(10000));
 	::std::shared_ptr<Material> whiteDiffuse(new DiffuseMaterial(Vector3(0.45,0.65,0.85)));
 	::std::shared_ptr<Material> mirror(new MirrorMaterial(Vector3(0.8,0.8,0.8)));
-	::std::shared_ptr<Material> glass(new GlassMaterial(1.2,Vector3(0.99,0.99,0.99)));
+	::std::shared_ptr<Material> glass(new GlassMaterial(1.5,Vector3(0.99,0.99,0.99)));
 
 	// ::std::vector<::std::pair<double,double>> controls{{0,0},{1,0},{2,0},{2,1},{3,1}};
 	// BezierCurve bc(controls);
@@ -53,8 +53,8 @@ int main(int argc,char** argv){
 
 	// Mesh::generateRotationFromBezier(bc,40,80).exportAsOBJ(file);
 
-	::std::ifstream cubeFile("bezier.obj",::std::ios::in);
-	Mesh m=Mesh::importFromOBJ(cubeFile);
+	::std::ifstream bezierFile("bezier.obj",::std::ios::in);
+	Mesh m=Mesh::importFromOBJ(bezierFile);
 
 	::std::shared_ptr<Geometry> mesh(new MeshGeometry(m,Vector3(10,-10,10)));
 	o1->transform.setPosition(Vector3(10,40,120));
@@ -92,10 +92,16 @@ int main(int argc,char** argv){
 	sql->transform.setPosition(Vector3(0,-90,100));
 	sql->transform.setRotation(Quaternion::fromAxisRotation(Vector3(1,0,0),-PI/2));
 
-	scene.addLight(l);
-	// scene.addLight(sql);
+	// scene.addLight(l);
+	scene.addLight(sql);
 
 	// Renderer::rayTracing(bitmap,scene,cam);
+	Renderer::PhotonMappingEngine ppm(bitmap,scene,cam);
+	ppm.setupHitPoint();
+	for(int i=0;i<20;i++){
+		ppm.processPhoton(10000);
+	}
+	ppm.writeBitmap();
 
 	::std::ofstream file("test.ppm",::std::ios::out|std::ios::binary);
 
