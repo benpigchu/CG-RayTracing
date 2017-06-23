@@ -193,8 +193,12 @@ void Renderer::PhotonMappingEngine::processPhoton(size_t pass)noexcept{
 				auto ii=iiResult.second;
 				auto mat=iiResult.first;
 				auto result=mat->transformRay(task.photon.ray,ii.normal,ii.pos);
+				double select=(::std::uniform_real_distribution<double>(0,1))(this->ranGen);
 				for(auto data:result){
-					Vector3 weight=data.weight*data.probablity;
+					select-=data.probablity;
+					if(select>0){
+						continue;
+					}
 					if(data.isDiffuse){
 						if(dot(task.photon.ray.getDirection(),ii.normal)>0){
 							continue;
@@ -210,14 +214,16 @@ void Renderer::PhotonMappingEngine::processPhoton(size_t pass)noexcept{
 					}else{
 						Ray nextRay=data.newRay;
 						nextRay.step(eps);
-						Photon p{nextRay,task.photon.intensity.scaled(weight)};
+						Photon p{nextRay,task.photon.intensity.scaled(data.weight)*data.probablity};
 						RayTracingTask next{p,task.depth+1};
 						addTask(next);
 					}
+					break;
 				}
 			}
 		});
 	};
+	this->photonNum+=pass;
 	while(pass>0){
 		pass--;
 		processPhoton(this->scene);

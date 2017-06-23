@@ -98,7 +98,7 @@ int main(int argc,char** argv){
 	// Renderer::rayTracing(bitmap,scene,cam);
 	Renderer::PhotonMappingEngine ppm(bitmap,scene,cam);
 	ppm.setupHitPoint();
-	for(int i=0;i<100;i++){
+	for(int i=0;i<1000;i++){
 		ppm.processPhoton(10000);
 	}
 	ppm.writeBitmap();
@@ -106,7 +106,6 @@ int main(int argc,char** argv){
 	::std::ofstream file("test.ppm",::std::ios::out|std::ios::binary);
 
 	bitmap.exportAsPPM(file);
-	// auto x=glass->transformRay(Ray(Vector3(0,1,1)),Vector3(0,1,0),Vector3(0,0,0));
 
 	::std::cout<<::std::endl;
 

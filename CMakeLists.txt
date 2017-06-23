@@ -4,7 +4,7 @@ project(CG-RayTracing)
 include_directories(src)
 include_directories(src/headers)
 
-set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_BUILD_TYPE Release)
 
 add_executable(rt
 	src/AABB.cpp
