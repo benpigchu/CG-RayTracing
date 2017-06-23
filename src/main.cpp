@@ -57,7 +57,7 @@ int main(int argc,char** argv){
 	Mesh m=Mesh::importFromOBJ(bezierFile);
 
 	::std::shared_ptr<Geometry> mesh(new MeshGeometry(m,Vector3(10,-10,10)));
-	o1->transform.setPosition(Vector3(10,40,120));
+	o1->transform.setPosition(Vector3(10,90,120));
 	o1->geometry=mesh;
 	o1->material=whiteDiffuse;
 	scene.addObject(o1);
@@ -98,7 +98,7 @@ int main(int argc,char** argv){
 	// Renderer::rayTracing(bitmap,scene,cam);
 	Renderer::PhotonMappingEngine ppm(bitmap,scene,cam);
 	ppm.setupHitPoint();
-	for(int i=0;i<20;i++){
+	for(int i=0;i<100;i++){
 		ppm.processPhoton(10000);
 	}
 	ppm.writeBitmap();
