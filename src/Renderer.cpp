@@ -222,7 +222,7 @@ void Renderer::PhotonMappingEngine::processPhoton(size_t pass)noexcept{
 		pass--;
 		processPhoton(this->scene);
 	}
-	this->hpHost.forEach([this](HitPoint hp){
+	this->hpHost.forEach([this](HitPoint& hp){
 		if(hp.newPhotonCount>0){
 			double coeff=(hp.newPhotonCount*PhotonMappingEngine::ALPHA+hp.photonCount)/(hp.newPhotonCount+hp.photonCount);
 			hp.radius*=::std::sqrt(coeff);
