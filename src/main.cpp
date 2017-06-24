@@ -54,7 +54,7 @@ int main(int argc,char** argv){
 
 	// ::std::ofstream modulefile("bezier.obj",::std::ios::out);
 
-	// Mesh::generateRotationFromBezier(bc,80,80).exportAsOBJ(modulefile);
+	// Mesh::generateRotationFromBezier(bc,320,160).exportAsOBJ(modulefile);
 
 	::std::ifstream bezierFile("bezier.obj",::std::ios::in);
 	Mesh m=Mesh::importFromOBJ(bezierFile);
@@ -110,7 +110,7 @@ int main(int argc,char** argv){
 	// Renderer::rayTracing(bitmap,scene,cam);
 	Renderer::PhotonMappingEngine ppm(bitmap,scene,cam);
 	ppm.setupHitPoint();
-	int passNum=1000;
+	int passNum=20000;
 	for(int i=0;i<passNum;i++){
 		ppm.processPhoton(10000);
 		::std::cout<<"iter "<<i<<"/"<<passNum<<::std::endl;

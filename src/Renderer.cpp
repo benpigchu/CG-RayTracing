@@ -1,6 +1,7 @@
 #include <cstddef>
 #include <tuple>
 #include <random>
+#include "omp.h"
 #include "Bitmap.h"
 #include "Camera.h"
 #include "Scene.h"
@@ -78,6 +79,7 @@ void Renderer::rayTracing(Bitmap& bitmap,const Scene& scene,const Camera& camera
 	};
 	size_t height=bitmap.getHeight();
 	size_t width=bitmap.getWidth();
+	#pragma omp parallel for schedule(dynamic,1) collapse(2)
 	for(int i=0;i<width;i++){
 		for(int j=0;j<height;j++){
 			double x=i+0.5-width/2.0;
@@ -85,7 +87,6 @@ void Renderer::rayTracing(Bitmap& bitmap,const Scene& scene,const Camera& camera
 			Vector3& pixel=bitmap.at(i,j);
 			pixel=renderer(camera.makeRay(x,y),scene);
 		}
-		::std::cout<<"rendering... ["<<i<<"]"<<::std::endl;
 	}
 }
 
@@ -111,13 +112,19 @@ void Renderer::PhotonMappingEngine::setupHitPoint()noexcept{
 				if(!(riResult.second.isReach)){
 					return;
 				}else{
-					this->litHitRecord.push_back(::std::make_tuple(x,y,riResult.second.intensity.scaled(task.weight)));
+					#pragma omp critical (litHitRecord)
+					{
+						this->litHitRecord.push_back(::std::make_tuple(x,y,riResult.second.intensity.scaled(task.weight)));
+					}
 					return;
 				}
 			}else{
 				if(riResult.second.isReach){
 					if(riResult.second.distance<iiResult.second.distance){
-						this->litHitRecord.push_back(::std::make_tuple(x,y,riResult.second.intensity.scaled(task.weight)));
+						#pragma omp critical (litHitRecord)
+						{
+							this->litHitRecord.push_back(::std::make_tuple(x,y,riResult.second.intensity.scaled(task.weight)));
+						}
 						return;
 					}
 				}
@@ -135,7 +142,10 @@ void Renderer::PhotonMappingEngine::setupHitPoint()noexcept{
 						hp.imageY=y;
 						hp.weight=weight.scaled(task.weight);
 						hp.radius=this->maxRadius;
-						hps.push_back(hp);
+						#pragma omp critical (HitPointRecord)
+						{
+							hps.push_back(hp);
+						}
 					}else{
 						Ray nextRay=data.newRay;
 						nextRay.step(eps);
@@ -148,6 +158,7 @@ void Renderer::PhotonMappingEngine::setupHitPoint()noexcept{
 	};
 	size_t height=this->bitmap.getHeight();
 	size_t width=this->bitmap.getWidth();
+	#pragma omp parallel for schedule(dynamic,1) collapse(2)
 	for(int i=0;i<width;i++){
 		for(int j=0;j<height;j++){
 			double x=i+0.5-width/2.0;
@@ -209,8 +220,11 @@ void Renderer::PhotonMappingEngine::processPhoton(size_t pass)noexcept{
 								return;
 							}
 							Vector3 intensity=dot(hp.normal,Vector3(0,0,0)-task.photon.ray.getDirection())*task.photon.intensity;
-							hp.intensity+=intensity;
-							hp.newPhotonCount++;
+							#pragma omp critical (ApplyPhoton)
+							{
+								hp.intensity+=intensity;
+								hp.newPhotonCount++;
+							}
 						});
 					}else{
 						Ray nextRay=data.newRay;
@@ -225,8 +239,8 @@ void Renderer::PhotonMappingEngine::processPhoton(size_t pass)noexcept{
 		});
 	};
 	this->photonNum+=pass;
-	while(pass>0){
-		pass--;
+	#pragma omp parallel for schedule(dynamic,1)
+	for(int i=0;i<pass;i++){
 		processPhoton(this->scene);
 	}
 	double newMaxRadius=0;

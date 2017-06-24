@@ -34,8 +34,22 @@ class Bitmap{
 		os<<"(Bitmap "<<m.width<<"x"<<m.height<<")";
 		return os;
 	}
-	inline Vector3 sample(double u,double v)const{
-		return this->at(ptrdiff_t(u*this->width),ptrdiff_t(v*this->height));
+	inline Vector3 sample(double u,double v)const noexcept{
+		ptrdiff_t x=ptrdiff_t(u*this->width);
+		ptrdiff_t y=ptrdiff_t(v*this->width);
+		if(x<0){
+			x=0;
+		}
+		if(y<0){
+			y=0;
+		}
+		if(x>=this->width){
+			x=this->width-1;
+		}
+		if(y>=this->height){
+			y=this->height-1;
+		}
+		return this->at(x,y);
 	}
 	void exportAsPPM(::std::ostream& os,double gamma=1.0f)const noexcept;
 	static Bitmap importFromPPM(::std::istream& is,double gamma=1.0f);
