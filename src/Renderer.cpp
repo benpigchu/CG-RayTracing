@@ -134,7 +134,7 @@ void Renderer::PhotonMappingEngine::setupHitPoint()noexcept{
 						hp.imageX=x;
 						hp.imageY=y;
 						hp.weight=weight.scaled(task.weight);
-						hp.radius=this->initRadius;
+						hp.radius=this->maxRadius;
 						hps.push_back(hp);
 					}else{
 						Ray nextRay=data.newRay;
@@ -204,7 +204,7 @@ void Renderer::PhotonMappingEngine::processPhoton(size_t pass)noexcept{
 						if(dot(task.photon.ray.getDirection(),ii.normal)>0){
 							continue;
 						}
-						this->hpHost.forEachInSphere(ii.pos,this->initRadius,[ii,task](HitPoint& hp){
+						this->hpHost.forEachInSphere(ii.pos,this->maxRadius,[ii,task](HitPoint& hp){
 							if((ii.pos-hp.position).length()>hp.radius){
 								return;
 							}
@@ -229,15 +229,18 @@ void Renderer::PhotonMappingEngine::processPhoton(size_t pass)noexcept{
 		pass--;
 		processPhoton(this->scene);
 	}
-	this->hpHost.forEach([this](HitPoint& hp){
+	double newMaxRadius=0;
+	this->hpHost.forEach([this,&newMaxRadius](HitPoint& hp){
 		if(hp.newPhotonCount>0){
 			double coeff=(hp.newPhotonCount*PhotonMappingEngine::ALPHA+hp.photonCount)/(hp.newPhotonCount+hp.photonCount);
 			hp.radius*=::std::sqrt(coeff);
 			hp.intensity*=coeff;
 			hp.photonCount+=hp.newPhotonCount*PhotonMappingEngine::ALPHA;
 			hp.newPhotonCount=0;
+			newMaxRadius=::std::max(newMaxRadius,hp.radius);
 		}
 	});
+	this->maxRadius=newMaxRadius;
 }
 
 void Renderer::PhotonMappingEngine::writeBitmap()noexcept{

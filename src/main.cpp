@@ -66,8 +66,8 @@ int main(int argc,char** argv){
 	o1->material=blueDiffuse;
 	scene.addObject(o1);
 
-	o2->transform.setPosition(Vector3(40,60,120));
-	o2->geometry=::std::shared_ptr<Geometry>(new Sphere(40));
+	o2->transform.setPosition(Vector3(40,70,125));
+	o2->geometry=::std::shared_ptr<Geometry>(new Sphere(30));
 	o2->material=glass;
 	scene.addObject(o2);
 
@@ -110,8 +110,10 @@ int main(int argc,char** argv){
 	// Renderer::rayTracing(bitmap,scene,cam);
 	Renderer::PhotonMappingEngine ppm(bitmap,scene,cam);
 	ppm.setupHitPoint();
-	for(int i=0;i<1;i++){
+	int passNum=1000;
+	for(int i=0;i<passNum;i++){
 		ppm.processPhoton(10000);
+		::std::cout<<"iter "<<i<<"/"<<passNum<<::std::endl;
 	}
 	ppm.writeBitmap();
 
