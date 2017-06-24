@@ -3,7 +3,7 @@
 #include "Material.h"
 #include "DiffuseMaterial.h"
 
-::std::vector<TransformedRayData> DiffuseMaterial::transformRay(Ray r,Vector3 normal,Vector3 pos)const noexcept{
+::std::vector<TransformedRayData> DiffuseMaterial::transformRay(Ray r,Vector3 normal,Vector3 pos,double u,double v)const noexcept{
 	::std::vector<TransformedRayData> result(1);
 	result[0].isDiffuse=true;
 	result[0].weight=this->color;

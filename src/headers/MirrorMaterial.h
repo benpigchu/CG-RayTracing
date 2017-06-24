@@ -9,7 +9,7 @@ class MirrorMaterial:public Material{
 	public:
 	Vector3 color;
 	MirrorMaterial(Vector3 color)noexcept:color(color){}
-	::std::vector<TransformedRayData> transformRay(Ray r,Vector3 normal,Vector3 pos)const noexcept override;
+	::std::vector<TransformedRayData> transformRay(Ray r,Vector3 normal,Vector3 pos,double u,double v)const noexcept override;
 };
 
 #endif //MIRRORMATERIAL_H

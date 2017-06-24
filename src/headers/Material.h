@@ -23,7 +23,7 @@ struct TransformedRayData{
 
 class Material{
 	public:
-	virtual ::std::vector<TransformedRayData> transformRay(Ray r,Vector3 normal,Vector3 pos)const noexcept = 0;
+	virtual ::std::vector<TransformedRayData> transformRay(Ray r,Vector3 normal,Vector3 pos,double u,double v)const noexcept = 0;
 };
 
 #endif //MATERIAL_H

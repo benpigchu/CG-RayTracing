@@ -47,7 +47,7 @@ void Renderer::rayTracing(Bitmap& bitmap,const Scene& scene,const Camera& camera
 				}
 				auto ii=iiResult.second;
 				auto mat=iiResult.first;
-				auto result=mat->transformRay(task.r,ii.normal,ii.pos);
+				auto result=mat->transformRay(task.r,ii.normal,ii.pos,ii.u,ii.v);
 				for(auto data:result){
 					Vector3 weight=data.weight*data.probablity;
 					if(data.isDiffuse){
@@ -123,7 +123,7 @@ void Renderer::PhotonMappingEngine::setupHitPoint()noexcept{
 				}
 				auto ii=iiResult.second;
 				auto mat=iiResult.first;
-				auto result=mat->transformRay(task.r,ii.normal,ii.pos);
+				auto result=mat->transformRay(task.r,ii.normal,ii.pos,ii.u,ii.v);
 				for(auto data:result){
 					Vector3 weight=data.weight*data.probablity;
 					if(data.isDiffuse){
@@ -193,7 +193,7 @@ void Renderer::PhotonMappingEngine::processPhoton(size_t pass)noexcept{
 				}
 				auto ii=iiResult.second;
 				auto mat=iiResult.first;
-				auto result=mat->transformRay(task.photon.ray,ii.normal,ii.pos);
+				auto result=mat->transformRay(task.photon.ray,ii.normal,ii.pos,ii.u,ii.v);
 				double select=(::std::uniform_real_distribution<double>(0,1))(this->ranGen);
 				for(auto data:result){
 					select-=data.probablity;

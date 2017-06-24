@@ -3,7 +3,7 @@
 #include "Material.h"
 #include "MirrorMaterial.h"
 
-::std::vector<TransformedRayData> MirrorMaterial::transformRay(Ray r,Vector3 normal,Vector3 pos)const noexcept{
+::std::vector<TransformedRayData> MirrorMaterial::transformRay(Ray r,Vector3 normal,Vector3 pos,double u,double v)const noexcept{
 	::std::vector<TransformedRayData> result(1);
 	result[0].isDiffuse=false;
 	result[0].probablity=1;

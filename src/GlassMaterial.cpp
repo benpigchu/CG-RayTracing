@@ -5,7 +5,7 @@
 #include "Material.h"
 #include "GlassMaterial.h"
 
-::std::vector<TransformedRayData> GlassMaterial::transformRay(Ray r,Vector3 normal,Vector3 pos)const noexcept{
+::std::vector<TransformedRayData> GlassMaterial::transformRay(Ray r,Vector3 normal,Vector3 pos,double u,double v)const noexcept{
 	TransformedRayData reflect;
 	TransformedRayData refract;
 	double drdotnm=dot(r.getDirection(),normal);
