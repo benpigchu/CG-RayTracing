@@ -1,4 +1,5 @@
 #include <cmath>
+#include "Util.h"
 #include "Geometry.h"
 #include "Sphere.h"
 #include "Vector3.h"
@@ -26,6 +27,8 @@ IntersectInfo Sphere::testIntersect(Ray r)const noexcept{
 			}
 			ii.pos=ii.distance*r.getDirection()+r.start;
 			ii.normal=(ii.pos).normalized();
+			ii.u=::std::atan2(ii.pos.y,ii.pos.x)/PI/2;
+			ii.v=::std::acos(ii.pos.z/this->radius)/PI;
 		}
 	}
 	return ii;

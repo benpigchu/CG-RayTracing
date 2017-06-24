@@ -9,6 +9,9 @@ IntersectInfo Triangle::testIntersect(Ray r)const noexcept{
 	// a+b+c=1
 	// [M4x4][a,b,c,d]T=[...x,1]
 	IntersectInfo ii;
+	// uv not supported yet
+	ii.u=0;
+	ii.v=0;
 	Vector3 t=r.getDirection();
 	Vector3 u=this->point[0];
 	Vector3 v=this->point[1];

@@ -33,37 +33,38 @@
 int main(int argc,char** argv){
 	::std::cout<<"still working\n";
 
-	Bitmap bitmap(200,200);
+	Bitmap bitmap(600,600);
 
 	Scene scene;
 
-	Camera cam(100);
+	Camera cam(600);
+	cam.transform.setPosition(Vector3(0,0,-100));
 
 	::std::shared_ptr<Object> o1(new Object),o2(new Object),o3(new Object);
 
 	::std::shared_ptr<Geometry> wall(new Sphere(10000));
-	::std::shared_ptr<Material> whiteDiffuse(new DiffuseMaterial(Vector3(0.45,0.65,0.85)));
+	::std::shared_ptr<Material> whiteDiffuse(new DiffuseMaterial(Vector3(0.2,0.4,0.6)));
 	::std::shared_ptr<Material> mirror(new MirrorMaterial(Vector3(0.8,0.8,0.8)));
 	::std::shared_ptr<Material> glass(new GlassMaterial(1.5,Vector3(0.99,0.99,0.99)));
 
-	// ::std::vector<::std::pair<double,double>> controls{{0,0},{1,0},{2,0},{2,1},{3,1}};
+	// ::std::vector<::std::pair<double,double>> controls{{0,0},{1,0},{2,1},{2,2},{3,2}};
 	// BezierCurve bc(controls);
 
-	// ::std::ofstream file("bezier.obj",::std::ios::out);
+	// ::std::ofstream modulefile("bezier.obj",::std::ios::out);
 
-	// Mesh::generateRotationFromBezier(bc,40,80).exportAsOBJ(file);
+	// Mesh::generateRotationFromBezier(bc,40,80).exportAsOBJ(modulefile);
 
 	::std::ifstream bezierFile("bezier.obj",::std::ios::in);
 	Mesh m=Mesh::importFromOBJ(bezierFile);
 
 	::std::shared_ptr<Geometry> mesh(new MeshGeometry(m,Vector3(10,-10,10)));
-	o1->transform.setPosition(Vector3(10,90,120));
+	o1->transform.setPosition(Vector3(30,90,140));
 	o1->geometry=mesh;
 	o1->material=whiteDiffuse;
 	scene.addObject(o1);
 
-	o2->transform.setPosition(Vector3(-40,40,100));
-	o2->geometry=::std::shared_ptr<Geometry>(new Sphere(20));
+	o2->transform.setPosition(Vector3(-40,60,120));
+	o2->geometry=::std::shared_ptr<Geometry>(new Sphere(40));
 	o2->material=glass;
 	scene.addObject(o2);
 
@@ -88,7 +89,7 @@ int main(int argc,char** argv){
 	makeWall(Vector3(0,-10100,100),Vector3(0,0,0));
 
 	::std::shared_ptr<Light> l(new PointLight(Vector3(/*0.2,0.2,0.6*/1,1,1),Vector3(30,-30,100)));
-	::std::shared_ptr<SquareLight> sql(new SquareLight(Vector3(1,1,1),10));
+	::std::shared_ptr<SquareLight> sql(new SquareLight(Vector3(1,1,1),40));
 	sql->transform.setPosition(Vector3(0,-90,100));
 	sql->transform.setRotation(Quaternion::fromAxisRotation(Vector3(1,0,0),-PI/2));
 

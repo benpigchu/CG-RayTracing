@@ -18,6 +18,8 @@ IntersectInfo Square::testIntersect(Ray r)const noexcept{
 		if(x>this->side||x<-this->side||y>this->side||y<-this->side){
 			ii.isIntersect=false;
 		}else{
+			ii.u=(x+this->side)/(2*this->side);
+			ii.v=(y+this->side)/(2*this->side);
 			ii.isIntersect=true;
 			ii.pos=r.start;
 			ii.normal=Vector3(0,0,1);

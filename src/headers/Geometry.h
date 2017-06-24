@@ -17,6 +17,7 @@ struct IntersectInfo{
 		}
 		return os;
 	}
+	double u,v;
 };
 
 class Geometry{
