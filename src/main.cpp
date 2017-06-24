@@ -98,11 +98,11 @@ int main(int argc,char** argv){
 
 	// Renderer::rayTracing(bitmap,scene,cam);
 	Renderer::PhotonMappingEngine ppm(bitmap,scene,cam);
-	ppm.setupHitPoint();
-	for(int i=0;i<1000;i++){
-		ppm.processPhoton(10000);
-	}
-	ppm.writeBitmap();
+	// ppm.setupHitPoint();
+	// for(int i=0;i<1000;i++){
+	// 	ppm.processPhoton(10000);
+	// }
+	// ppm.writeBitmap();
 
 	::std::ofstream file("test.ppm",::std::ios::out|std::ios::binary);
 

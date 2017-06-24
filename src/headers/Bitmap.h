@@ -4,6 +4,7 @@
 #include <vector>
 #include <stdexcept>
 #include <ostream>
+#include <istream>
 #include "Vector3.h"
 
 class Bitmap{
@@ -34,6 +35,7 @@ class Bitmap{
 		return os;
 	}
 	void exportAsPPM(::std::ostream& os,double gamma=1.0f)const noexcept;
+	static Bitmap importFromPPM(::std::istream& is,double gamma=1.0f);
 };
 
 
