@@ -16,7 +16,7 @@ LightReachInfo SquareLight::testReach(Ray r)const noexcept{
 }
 
 Vector3 SquareLight::getIntensity(Vector3 position,::std::function<Vector3(Vector3,Vector3)> filter)const noexcept{
-	if(apply(this->transform.getMatrixInversed(),position).z<0){
+	if(apply(this->transform.getMatrixInversed(),position).z>0){
 		return Vector3(0,0,0);
 	}else{
 		Vector3 samples;
@@ -41,6 +41,6 @@ Photon SquareLight::emit(::std::default_random_engine& gen)const noexcept{
 	double posx=posD(gen);
 	double posy=posD(gen);
 	Vector3 position=apply(this->transform.getMatrix(),Vector3(posx,posy,0));
-	Vector3 direction=apply(this->transform.getRotation(),Vector3(::std::sin(theta)*::std::cos(phi),::std::sin(theta)*::std::sin(phi),::std::cos(theta)));
+	Vector3 direction=apply(this->transform.getRotation(),Vector3(::std::sin(theta)*::std::cos(phi),::std::sin(theta)*::std::sin(phi),-::std::cos(theta)));
 	return Photon{Ray(direction,position),this->intensity};
 }

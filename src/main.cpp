@@ -29,6 +29,7 @@
 #include "Renderer.h"
 #include "Mesh.h"
 #include "MeshGeometry.h"
+#include "WeightTexturedMaterial.h"
 
 int main(int argc,char** argv){
 	::std::cout<<"still working\n";
@@ -40,39 +41,49 @@ int main(int argc,char** argv){
 	Camera cam(600);
 	cam.transform.setPosition(Vector3(0,0,-100));
 
-	::std::shared_ptr<Object> o1(new Object),o2(new Object),o3(new Object);
+	::std::shared_ptr<Object> o1(new Object),o2(new Object),o3(new Object),o4(new Object);
 
 	::std::shared_ptr<Geometry> wall(new Sphere(10000));
-	::std::shared_ptr<Material> whiteDiffuse(new DiffuseMaterial(Vector3(0.2,0.4,0.6)));
+	::std::shared_ptr<Material> blueDiffuse(new DiffuseMaterial(Vector3(0.2,0.4,0.6)));
+	::std::shared_ptr<Material> whiteDiffuse(new DiffuseMaterial(Vector3(1,1,1)));
 	::std::shared_ptr<Material> mirror(new MirrorMaterial(Vector3(0.8,0.8,0.8)));
 	::std::shared_ptr<Material> glass(new GlassMaterial(1.5,Vector3(0.99,0.99,0.99)));
 
-	// ::std::vector<::std::pair<double,double>> controls{{0,0},{1,0},{2,1},{2,2},{3,2}};
+	// ::std::vector<::std::pair<double,double>> controls{{0,0},{6,0},{0,4},{1,8}};
 	// BezierCurve bc(controls);
 
 	// ::std::ofstream modulefile("bezier.obj",::std::ios::out);
 
-	// Mesh::generateRotationFromBezier(bc,40,80).exportAsOBJ(modulefile);
+	// Mesh::generateRotationFromBezier(bc,80,80).exportAsOBJ(modulefile);
 
 	::std::ifstream bezierFile("bezier.obj",::std::ios::in);
 	Mesh m=Mesh::importFromOBJ(bezierFile);
 
-	::std::shared_ptr<Geometry> mesh(new MeshGeometry(m,Vector3(10,-10,10)));
-	o1->transform.setPosition(Vector3(30,90,140));
+	::std::shared_ptr<Geometry> mesh(new MeshGeometry(m,Vector3(15,15,15)));
+	o1->transform.setPosition(Vector3(-50,100,140));
+	o1->transform.setRotation(Quaternion::fromAxisRotation(Vector3(1,0,0),PI));
 	o1->geometry=mesh;
-	o1->material=whiteDiffuse;
+	o1->material=blueDiffuse;
 	scene.addObject(o1);
 
-	o2->transform.setPosition(Vector3(-40,60,120));
+	o2->transform.setPosition(Vector3(40,60,120));
 	o2->geometry=::std::shared_ptr<Geometry>(new Sphere(40));
 	o2->material=glass;
 	scene.addObject(o2);
 
 	o3->transform.setPosition(Vector3(80,0,180));
-	o3->transform.setRotation(Quaternion::fromAxisRotation(Vector3(0,1,0),-PI*3/4));
+	o3->transform.setRotation(Quaternion::fromAxisRotation(Vector3(0,1,0),PI*1/4));
 	o3->geometry=::std::shared_ptr<Geometry>(new Square(60));
 	o3->material=mirror;
 	scene.addObject(o3);
+
+	::std::ifstream textureFile("out.ppm",::std::ios::in|std::ios::binary);
+	Bitmap texture=Bitmap::importFromPPM(textureFile);
+
+	o4->transform.setPosition(Vector3(0,0,195));
+	o4->geometry=::std::shared_ptr<Geometry>(new Square(40));
+	o4->material=::std::shared_ptr<Material>(new WeightTexturedMaterial(texture,whiteDiffuse));
+	scene.addObject(o4);
 
 	auto makeWall=[&scene,wall](Vector3 pos,Vector3 color=Vector3(1,1,1)){
 		::std::shared_ptr<Object> w(new Object);
@@ -91,26 +102,24 @@ int main(int argc,char** argv){
 	::std::shared_ptr<Light> l(new PointLight(Vector3(/*0.2,0.2,0.6*/1,1,1),Vector3(30,-30,100)));
 	::std::shared_ptr<SquareLight> sql(new SquareLight(Vector3(1,1,1),40));
 	sql->transform.setPosition(Vector3(0,-90,100));
-	sql->transform.setRotation(Quaternion::fromAxisRotation(Vector3(1,0,0),-PI/2));
+	sql->transform.setRotation(Quaternion::fromAxisRotation(Vector3(1,0,0),PI/2));
 
 	// scene.addLight(l);
 	scene.addLight(sql);
 
 	// Renderer::rayTracing(bitmap,scene,cam);
 	Renderer::PhotonMappingEngine ppm(bitmap,scene,cam);
-	// ppm.setupHitPoint();
-	// for(int i=0;i<1000;i++){
-	// 	ppm.processPhoton(10000);
-	// }
-	// ppm.writeBitmap();
+	ppm.setupHitPoint();
+	for(int i=0;i<1;i++){
+		ppm.processPhoton(10000);
+	}
+	ppm.writeBitmap();
 
 	::std::ofstream file("test.ppm",::std::ios::out|std::ios::binary);
 
 	bitmap.exportAsPPM(file);
 
 	::std::cout<<::std::endl;
-
-
 
 	return 0;
 }

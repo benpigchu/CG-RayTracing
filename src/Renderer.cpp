@@ -252,6 +252,6 @@ void Renderer::PhotonMappingEngine::writeBitmap()noexcept{
 		this->bitmap.at(::std::get<0>(x),::std::get<1>(x))+=::std::get<2>(x);
 	}
 	this->hpHost.forEach([this](HitPoint hp){
-		this->bitmap.at(hp.imageX,hp.imageY)+=hp.intensity.scale(hp.weight)/(/*hp.photonCount+hp.newPhotonCount*/this->photonNum)/(PI*hp.radius*hp.radius);
+		this->bitmap.at(hp.imageX,hp.imageY)+=hp.intensity.scale(hp.weight)/(this->photonNum)/(PI*hp.radius*hp.radius);
 	});
 }

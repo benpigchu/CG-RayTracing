@@ -25,5 +25,6 @@ add_executable(rt
 	src/Square.cpp
 	src/SquareLight.cpp
 	src/Triangle.cpp
+	src/WeightTexturedMaterial.cpp
 	src/main.cpp
 	)

@@ -22,7 +22,7 @@ IntersectInfo Square::testIntersect(Ray r)const noexcept{
 			ii.v=(y+this->side)/(2*this->side);
 			ii.isIntersect=true;
 			ii.pos=r.start;
-			ii.normal=Vector3(0,0,1);
+			ii.normal=Vector3(0,0,-1);
 		}
 	}
 	return ii;

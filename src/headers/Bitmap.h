@@ -34,6 +34,9 @@ class Bitmap{
 		os<<"(Bitmap "<<m.width<<"x"<<m.height<<")";
 		return os;
 	}
+	inline Vector3 sample(double u,double v)const{
+		return this->at(ptrdiff_t(u*this->width),ptrdiff_t(v*this->height));
+	}
 	void exportAsPPM(::std::ostream& os,double gamma=1.0f)const noexcept;
 	static Bitmap importFromPPM(::std::istream& is,double gamma=1.0f);
 };
